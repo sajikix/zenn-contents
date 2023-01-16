@@ -1,0 +1,24 @@
+{
+  "name": "zenn-contents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sajikix/zenn-contents.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/sajikix/zenn-contents/issues"
+  },
+  "homepage": "https://github.com/sajikix/zenn-contents#readme",
+  "devDependencies": {
+    "textlint": "^12.5.1",
+    "textlint-rule-preset-ja-technical-writing": "^7.0.0",
+    "zenn-cli": "^0.1.135"
+  }
+}
