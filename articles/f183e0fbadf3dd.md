@@ -7,13 +7,13 @@ publication_name: "cybozu_frontend"
 published: false
 ---
 
-こんにちは! サイボウズ株式会社 フロントエンドエキスパートチームの[Saji(@sajikix)](https://twitter.com/sajikix)です。
+こんにちは! サイボウズ株式会社フロントエンドエキスパートチームの [Saji (@sajikix)](https://twitter.com/sajikix) です。
 
 # はじめに
 
 フロントエンドエキスパートチームでは毎週火曜日に Frontend Weekly という 「1 週間の間にあったフロントエンドニュースを共有する会」 を社内でに開催しています。
 
-今回は、2023/01/10 の Frontend Weeklyで取り上げた記事や話題をまとめたものになります。
+今回は、2023/01/10 の FrontendWeekly で取り上げた記事や話題をまとめたものになります。
 
 # 取り上げた記事・話題
 
@@ -32,7 +32,7 @@ Next.js 13.1 がリリースされました。主要なアップデートは以�
 
 https://storybook.js.org/blog/future-of-storybook-in-2023/
 
-Storybook が 2022 年の振り返りと、2023 にやることについてブログを出しています。
+Storybook が 2022 年の振り返りと、2023 年にやることについてブログを出しています。
 
 2022 年は 7.0 の beta リリースが象徴的でしたが、具体的には以下のようなアップデート・改善が行われました。
 
@@ -65,7 +65,7 @@ Interop は Web プラットフォームの相互運用性を改善するため�
 https://web.dev/interop-2022/
 :::
 
-Interop 自体の取組開始当初(2022 年 3 月ごろ)と比べると互換性のベンチマークスコアがかなり改善されています。特に、[ダッシュボード](https://wpt.fyi/interop-2022) を見ると Viewport Units は全ブラウザて 100% になっています。
+Interop 自体の取組開始当初(2022 年 3 月ごろ)と比べると互換性のベンチマークスコアがかなり改善されています。特に、[ダッシュボード](https://wpt.fyi/interop-2022)を見ると Viewport Units は全ブラウザて 100% になっています。
 
 また web.dev にブラウザ互換性の最新情報に関する[記事集](https://web.dev/tags/newly-interoperable/)があるので合わせて参照すると良さそうです。
 
@@ -105,7 +105,7 @@ React Native が TypeScript を first-class サポートしました。開発者
 - アプリを作成するテンプレートがデフォルトで TypeScript に
 - DefinitelyTyped を利用しなくても組み込みの型宣言が利用できるようになる
 
-Frontend Weekly参加者からは 「React は今だに Flow で書かれているけどこの先どうするんだろう」 といった声も出ていました。
+FrontendWeekly 参加者からは 「React は今だに Flow で書かれているけどこの先どうするんだろう」 といった声も出ていました。
 
 ## ウェブアクセシビリティ導入ガイドブック
 
@@ -162,7 +162,7 @@ https://speakerdeck.com/mtx2s/technical-debt-and-developer-experience
 
 技術的負債について開発者体験という視点からわかりやすく分析・言語化している資料です。
 
-技術的負債を作らないように関係者へ説明するときにとても参考になる資料なので、皆さんも一度目を通しておくと良さそうです。
+技術的負債を作らないように関係者へ説明する際とても参考になる資料なので、皆さんも一度目を通しておくと良さそうです。
 
 # あとがき
 
