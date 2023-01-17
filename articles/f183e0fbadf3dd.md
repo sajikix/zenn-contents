@@ -15,9 +15,9 @@ published: false
 
 今年からはこの Frontend Weekly で取り上げたニュースを Zenn でも簡単に共有できたらと思っています！
 
-この記事では 2023/01/10 の Frontend Weekly で取り上げた記事や話題を共有していきます！
+この記事では 2023/01/10 の Frontend Weekly で取り上げた記事や話題を共有していきます。
 
-# 今週取り上げた記事・話題
+# 取り上げた記事・話題
 
 ## Next.js 13.1 がリリース
 
@@ -28,7 +28,7 @@ Next.js 13.1 がリリースされました。主要なアップデートは以�
 - app ディレクトリを使った際の初回の JS の読み込みサイズ減少
 - next-transpile-modules で行ってたモジュールのトランスパイルの機能が本体に組み込まれた
 - Edge Runtime が stable に
-- etc...
+- Turbopack がアップデートされ、Tailwind CSS , `next/image` , `@next/font` などがサポートされる
 
 ## Future of Storybook in 2023
 
@@ -36,9 +36,25 @@ https://storybook.js.org/blog/future-of-storybook-in-2023/
 
 Storybook が 2022 年の振り返りと、2023 にやることについてブログを出しています。
 
-2022 年の振り返りとしては以下のようなことが挙げられています。
+2022 年は 7.0 の beta リリースが象徴的でしたが、具体的には以下のようなアップデート・改善が行われました。
 
-また 2023 年には以下のようなことに取り組むようです。
+- パフォーマンス
+  - 遅延コンパイルと依存関係のプリバンドルによるオンデマンドアーキテクチャの採用で２倍近いパフォーマンス向上が見られた
+- 安定性
+  - early warning system を導入し安定性を向上
+- 互換性
+  - Frameworks API と呼ばれる新しいアーキテクチャを採用し各フレームワークやビルドツールとの互換性が向上した。ファーストクラスの Vite と NextJS のサポートだけでなく、進行中の SvelteKit のサポートや Remix, Qwik, SolidJS などのサポートの準備を進めている。
+- テスト
+  - [Storybook Test Runner](https://storybook.js.org/blog/interaction-testing-with-storybook/) をリリースし、 Storybook 上で行えるインタラクションテストが大きく普及。
+
+2023 年は初のユーザーカンファレンスである「Storybook Day」を開催し、同時に v7.0 の安定版をリリース予定です。そのほかにも以下のような改善を予定しています。
+
+- Turbopack と Vite によるビルドの高速化
+- アクセシビリティテスト / フルページテスト
+- React Native サポート
+- etc...
+
+2023 年も引き続き Storybook のアップデートに期待できそうです。
 
 ## Interop 2022: end of year update
 
@@ -55,7 +71,7 @@ Interop 自体の取組開始当初(2022 年 3 月ごろ)と比べると互換�
 
 また web.dev にブラウザ互換性の最新情報に関する[記事集](https://web.dev/tags/newly-interoperable/)があるので合わせて参照すると良さそうです。
 
-引き続きブラウザの相互運用性向上に向けて Interop2023 の計画段階に入っており、近く採用された機能が発表になるそうなので注目していきたいところです。
+引き続きブラウザの相互運用性向上に向けて Interop2023 が計画段階に入っており、近く採用された機能が発表になるそうなので注目していきたいところです。
 
 ## 2022 JavaScript Rising Stars
 
@@ -86,7 +102,10 @@ Remix を新規プロダクトで採用した事例ままだまだ少ない印�
 
 https://reactnative.dev/blog/2023/01/03/typescript-first
 
-React Native が TypeScript を first-class サポートしました。
+React Native が TypeScript を first-class サポートしました。開発者としては以下の２点が大きなアップデートと言えそうです。
+
+- アプリを作成するテンプレートがデフォルトで TypeScript に
+- DefinitelyTyped を利用しなくても組み込みの型宣言が利用できるようになる
 
 共有会参加者からは 「React は今だに Flow で書かれているけどこの先どうするんだろう」 といった声も出ていました。
 
@@ -94,7 +113,7 @@ React Native が TypeScript を first-class サポートしました。
 
 https://www.digital.go.jp/resources/introduction-to-web-accessibility-guidebook/
 
-デジタル庁がウェブアクセシビリティ導入ガイドブックを公開しています。
+デジタル庁がウェブアクセシビリティ導入ガイドブックを公開しています。基本的な部分から丁寧に解説されているので１度目を通すと良さそうです。
 
 ## Advent Calendars For Web Designers And Developers (2022 Edition) — Smashing Magazine
 
@@ -116,22 +135,36 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=1806690
 
 一部サイトで UA 文字列から各ブラウザのバージョンを判別する際、firefox のバージョン表記を IE11 と誤認する不具合が発生しました。このため一部の UA 文字列を 109 で当分固定することになりました。
 
-具体的には...。
+例えば Firefox の 110 でアクセスした場合の UA 文字列は以下のようになります。
 
-Chrome と Firefox が v100 になる時も同じような問題がありましたが、UA 文字列のパース処理には気をつけたいところです。
+```
+Mozilla/5.0 (Windows NT 10.0; rv:110.0) Gecko/20100101 Firefox/110.0
+```
+
+この文字列の中の `rv:11` の部分だけとマッチ (後ろの `0` を無視して先頭マッチ) して IE11 と判断しているサイトが一定数あったために今回のような不具合が発生しました。そのため v120 になるまでは `rv:` の部分を `rv:109` で固定し、`Firefox/` の部分はバージョン通りに進める形で対応するようです。
+
+Chrome と Firefox が３桁バージョン ( v100 ) になる時も同じような問題がありましたが、UA 文字列のパース処理には気をつけたいところです。
 
 ## WebKit Features in Safari 16.2
 
 https://webkit.org/blog/13591/webkit-features-in-safari-16-2/
 
-Safari 16.2 の新機能等についてです。
-上で書いた　 interop 2022 を頑張りましたみたいな話もしてます。
+Safari 16.2 の新機能についてです。
+
+大きく取り上げられていたのは以下の２点です。
+
+- CSS の `font-variant-alternates` プロパティで多くの値に対応した
+- CSS の Alignment における `last baseline` に対応
+
+また上で書いた　 interop 2022 についての取り組みも紹介されています。
 
 ## 技術的負債は開発者体験を悪化させる / Technical Debt and Developer Experience
 
 https://speakerdeck.com/mtx2s/technical-debt-and-developer-experience
 
-技術的負債を作らないように関係者へ説明するときにとても使える資料皆さんも一度目を通しておくと良さそうです。
+技術的負債について開発者体験という視点からわかりやすく分析・言語化している資料です。
+
+技術的負債を作らないように関係者へ説明するときにとても使える資料なので、皆さんも一度目を通しておくと良さそうです。
 
 # あとがき
 
