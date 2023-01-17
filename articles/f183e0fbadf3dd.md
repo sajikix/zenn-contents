@@ -26,7 +26,7 @@ Next.js 13.1 がリリースされました。主要なアップデートは以�
 - app ディレクトリを使った際の初回の JS の読み込みサイズ減少
 - next-transpile-modules で行ってたモジュールのトランスパイルの機能が本体に組み込まれた
 - Edge Runtime が stable に
-- Turbopack がアップデートされ、Tailwind CSS , `next/image` , `@next/font` などがサポートされる
+- Turbopack がアップデートされ、Tailwind CSS , `@next/image` , `@next/font` などがサポートされる
 
 ## Future of Storybook in 2023
 
