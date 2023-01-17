@@ -1,21 +1,19 @@
 ---
-title: "Frontend Weekly #1 (2023-01-10号)"
+title: "Interop2022の取組まとめなど : Cybozu Frontend Weekly (2023-01-10号)"
 emoji: "🎍"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["frontendweekly", "frontend"]
+topics: ["FrontendWeekly", "frontend"]
 publication_name: "cybozu_frontend"
-published: false
+published: true
 ---
 
-こんにちは! サイボウズ株式会社 フロントエンドエキスパートチームの[Saji(@sajikix)](https://twitter.com/sajikix)です。
+こんにちは! サイボウズ株式会社フロントエンドエキスパートチームの [Saji (@sajikix)](https://twitter.com/sajikix) です。
 
 # はじめに
 
 フロントエンドエキスパートチームでは毎週火曜日に Frontend Weekly という 「1 週間の間にあったフロントエンドニュースを共有する会」 を社内でに開催しています。
 
-今年からはこの Frontend Weekly で取り上げたニュースを Zenn でも簡単に共有できたらと思っています！
-
-記念すべき第1回目のこの記事では 2023/01/10 の Frontend Weekly で取り上げた記事や話題を共有していきます。
+今回は、2023/01/10 の FrontendWeekly で取り上げた記事や話題をまとめたものになります。
 
 # 取り上げた記事・話題
 
@@ -28,13 +26,13 @@ Next.js 13.1 がリリースされました。主要なアップデートは以�
 - app ディレクトリを使った際の初回の JS の読み込みサイズ減少
 - next-transpile-modules で行ってたモジュールのトランスパイルの機能が本体に組み込まれた
 - Edge Runtime が stable に
-- Turbopack がアップデートされ、Tailwind CSS , `next/image` , `@next/font` などがサポートされる
+- Turbopack がアップデートされ、Tailwind CSS , `@next/image` , `@next/font` などがサポートされる
 
 ## Future of Storybook in 2023
 
 https://storybook.js.org/blog/future-of-storybook-in-2023/
 
-Storybook が 2022 年の振り返りと、2023 にやることについてブログを出しています。
+Storybook が 2022 年の振り返りと、2023 年にやることについてブログを出しています。
 
 2022 年は 7.0 の beta リリースが象徴的でしたが、具体的には以下のようなアップデート・改善が行われました。
 
@@ -67,7 +65,7 @@ Interop は Web プラットフォームの相互運用性を改善するため�
 https://web.dev/interop-2022/
 :::
 
-Interop 自体の取組開始当初(2022 年 3 月ごろ)と比べると互換性のベンチマークスコアがかなり改善されています。特に、[ダッシュボード](https://wpt.fyi/interop-2022) を見ると Viewport Units は全ブラウザて 100% になっています。
+Interop 自体の取組開始当初(2022 年 3 月ごろ)と比べると互換性のベンチマークスコアがかなり改善されています。特に、[ダッシュボード](https://wpt.fyi/interop-2022)を見ると Viewport Units は全ブラウザて 100% になっています。
 
 また web.dev にブラウザ互換性の最新情報に関する[記事集](https://web.dev/tags/newly-interoperable/)があるので合わせて参照すると良さそうです。
 
@@ -107,7 +105,7 @@ React Native が TypeScript を first-class サポートしました。開発者
 - アプリを作成するテンプレートがデフォルトで TypeScript に
 - DefinitelyTyped を利用しなくても組み込みの型宣言が利用できるようになる
 
-共有会参加者からは 「React は今だに Flow で書かれているけどこの先どうするんだろう」 といった声も出ていました。
+FrontendWeekly 参加者からは 「React は今だに Flow で書かれているけどこの先どうするんだろう」 といった声も出ていました。
 
 ## ウェブアクセシビリティ導入ガイドブック
 
@@ -164,7 +162,7 @@ https://speakerdeck.com/mtx2s/technical-debt-and-developer-experience
 
 技術的負債について開発者体験という視点からわかりやすく分析・言語化している資料です。
 
-技術的負債を作らないように関係者へ説明するときにとても使える資料なので、皆さんも一度目を通しておくと良さそうです。
+技術的負債を作らないように関係者へ説明する際とても参考になる資料なので、皆さんも一度目を通しておくと良さそうです。
 
 # あとがき
 
