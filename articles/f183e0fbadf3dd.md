@@ -2,7 +2,7 @@
 title: "Frontend Weekly #1 (2023-01-10号)"
 emoji: "🎍"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
+topics: ["frontendweekly", "frontend"]
 publication_name: "cybozu_frontend"
 published: false
 ---
