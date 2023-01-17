@@ -15,7 +15,7 @@ published: false
 
 今年からはこの Frontend Weekly で取り上げたニュースを Zenn でも簡単に共有できたらと思っています！
 
-この記事では 2023/01/10 の Frontend Weekly で取り上げた記事や話題を共有していきます。
+記念すべき第1回目のこの記事では 2023/01/10 の Frontend Weekly で取り上げた記事や話題を共有していきます。
 
 # 取り上げた記事・話題
 
@@ -135,7 +135,7 @@ https://bugzilla.mozilla.org/show_bug.cgi?id=1806690
 
 一部サイトで UA 文字列から各ブラウザのバージョンを判別する際、firefox のバージョン表記を IE11 と誤認する不具合が発生しました。このため一部の UA 文字列を 109 で当分固定することになりました。
 
-例えば Firefox の 110 でアクセスした場合の UA 文字列は以下のようになります。
+例えば Firefox の v110 でアクセスした場合の UA 文字列は以下のようになります。
 
 ```
 Mozilla/5.0 (Windows NT 10.0; rv:110.0) Gecko/20100101 Firefox/110.0
@@ -156,7 +156,7 @@ Safari 16.2 の新機能についてです。
 - CSS の `font-variant-alternates` プロパティで多くの値に対応した
 - CSS の Alignment における `last baseline` に対応
 
-また上で書いた　 interop 2022 についての取り組みも紹介されています。
+また上で書いた　interop 2022 についての取り組みも紹介されています。
 
 ## 技術的負債は開発者体験を悪化させる / Technical Debt and Developer Experience
 
