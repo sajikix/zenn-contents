@@ -133,9 +133,7 @@ EcmaScript によると `Set` は以下のように定義されています。
 
 こうなると気になってくるのが「各 JS エンジンの実装はどうなっているのか?」ということです。 仕様書では性能要件を提示していますが実装方法は各 JS ランタイム側に任されています。今回は主要ブラウザの JS ランタイムである `V8`, `SpiderMonkey`, `JavaScriptCore` の実装を見てみましょう。(ここからは自分が初めて読むものがほとんどです。間違っているところなどありましたらコメントいただけると嬉しいです。)
 
-### V8
-
-#### コードを読むまでに
+### V8 のコードリーディング
 
 V8 のコードは [Google Git のページ](https://chromium.googlesource.com/v8/v8/+/refs/heads/main) から閲覧可能ですが、検索やコードジャンプなどが使えないので clone してきた方が読みやすそうです。
 
@@ -241,9 +239,7 @@ class OrderedHashTable : public FixedArray {
 
 これで V8 では `Set` をある種の**ハッシュテーブルで実装している**ことがわかりました。
 
-### SpiderMonkey
-
-#### コードを読むまでに
+### SpiderMonkey のコードリーディング
 
 SpiderMonkey のコードは以下のページで読むことができます。こちらはコードの検索やジャンプにも対応しているのでこのページ上で読んでいきましょう。
 
@@ -251,7 +247,7 @@ https://searchfox.org/mozilla-central/source/js/src
 
 #### SpiderMonkey の Set 実装を読む
 
-V8 の時と同様、 JS の API 層との繋ぎ込み部分から探していきましょう。Set の繋ぎ込みは [source/js/public/MapAndSet.h の 52 行目](https://searchfox.org/mozilla-central/source/js/public/MapAndSet.h#52) から書かれています。今回は `add` メソッドの定義から追ってみましょう。
+V8 と同様、 JS の API 層との繋ぎ込み部分から探していきましょう。Set の繋ぎ込みは [source/js/public/MapAndSet.h の 52 行目](https://searchfox.org/mozilla-central/source/js/public/MapAndSet.h#52) から書かれています。今回は `add` メソッドの定義から追ってみましょう。
 
 ```cpp
 extern JS_PUBLIC_API bool SetAdd(JSContext* cx, HandleObject obj,
@@ -350,9 +346,7 @@ class OrderedHashSet {
 
 これで SpiderMonkey でも `Set` を**ハッシュテーブルで実装している**ことがわかりました。
 
-### JavaScriptCore
-
-#### コードを読むまでに
+### JavaScriptCore のコードリーディング
 
 JavaScriptCore の実装は以下の github で公開されています。
 
@@ -432,7 +426,7 @@ ALWAYS_INLINE void HashMapImpl<HashMapBucketType>::add(JSGlobalObject* globalObj
 1. `Set` は `SameValueZero` アルゴリズムで一意性を保証しており、 `NaN` の扱い以外は `===` と同じ挙動である。
 2. `Set` は 仕様でアクセス性能が O(n) 以下であることを要求しており、主要ブラウザ (Chrome, Firefox, Safari) の JS エンジンは順序付き HashTable で実装している。
 
-JavaScript の機能や挙動に疑問がある際は、この記事のような形で仕様書や実装を見に行くとより知見が深まりそうです。
+JavaScript の機能や挙動に疑問がある際は、この記事のような形で仕様書や実装を見に行くとより理解が深まりそうです。
 
 ## 参考文献
 
