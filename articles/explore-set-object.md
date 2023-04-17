@@ -429,12 +429,14 @@ ALWAYS_INLINE void HashMapImpl<HashMapBucketType>::add(JSGlobalObject* globalObj
 
 今回の調査の結果をまとめると以下になります。
 
-1. `Set` は SameValueZero で一意性を保証しており、 `NaN` の扱い以外は `===` と同じ挙動である。
+1. `Set` は `SameValueZero` アルゴリズムで一意性を保証しており、 `NaN` の扱い以外は `===` と同じ挙動である。
 2. `Set` は 仕様でアクセス性能が O(n) 以下であることを要求しており、主要ブラウザ (Chrome, Firefox, Safari) の JS エンジンは順序付き HashTable で実装している。
+
+JavaScript の機能や挙動に疑問がある際は、この記事のような形で仕様書や実装を見に行くとより知見が深まりそうです。
 
 ## 参考文献
 
-この記事を書くにあたって参考としたページ・記事になります。
+この記事を書くにあたって参考とさせて頂いたページ・記事になります。
 
 - MDN
   - [等価性の比較と同一性](https://developer.mozilla.org/ja/docs/Web/JavaScript/Equality_comparisons_and_sameness)
