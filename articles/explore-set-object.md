@@ -396,18 +396,41 @@ class JSSet final : public HashMapImpl<HashMapBucket<HashMapBucketDataKey>> {
 }
 ```
 
-この定義から `JSSet` は `HashMapImpl` を継承していることがわかりました。`HashMapImpl` では基本的に　`HashTable`　で実装しつつ、順序の保証をする実装を入れていそうです。
+この定義から `JSSet` は `HashMapImpl` を継承していることがわかりました。`HashMapImpl` のヘッダファイルでの定義は[runtime/HashMapImpl.h の 244 行目](https://github.com/WebKit/WebKit/blob/a40563bfe366254cad9399917bee1b691f3ecafe/Source/JavaScriptCore/runtime/HashMapImpl.h#L244)にあります。
 
-<!-- ここもうちょい詳しく -->
+```cpp
+class HashMapImpl : public JSNonFinalObject {
+    using Base = JSNonFinalObject;
+    using HashMapBufferType = HashMapBuffer<HashMapBucketType>;
 
-これで JavaScriptCore でも `Set` を**ハッシュテーブルで実装している**ことがわかりました。
+public:
+    using BucketType = HashMapBucketType;
+    // ...
+}
+```
+
+もう少し詳しく `add()` メソッドの実装場所なども参照してみましょう。`add()` メソッドは[runtime/HashMapImplInlines.h の 248 行目](https://github.com/WebKit/WebKit/blob/a40563bfe366254cad9399917bee1b691f3ecafe/Source/JavaScriptCore/runtime/HashMapImplInlines.h#L248)にあります。
+
+```cpp
+ALWAYS_INLINE void HashMapImpl<HashMapBucketType>::add(JSGlobalObject* globalObject, JSValue key, JSValue value)
+{
+    key = normalizeMapKey(key);
+    addNormalizedInternal(globalObject, key, value, [&] (HashMapBucketType* bucket) {
+        return !isDeleted(bucket) && areKeysEqual(globalObject, key, bucket->key());
+    });
+}
+```
+
+この [`addNormalizedInternal`部分の実装](https://github.com/WebKit/WebKit/blob/a40563bfe366254cad9399917bee1b691f3ecafe/Source/JavaScriptCore/runtime/HashMapImplInlines.h#L376)を見てみると、hash の生成や key/value のセット、さらに `HashMapBucket` を利用して順序を記録する実装が入っています。
+
+このことから JavaScriptCore でも `Set` を**順序保証をしたハッシュテーブル**で実装していることがわかりました。
 
 ## まとめ
 
 今回の調査の結果をまとめると以下になります。
 
 1. `Set` は SameValueZero で一意性を保証しており、 `NaN` の扱い以外は `===` と同じ挙動である。
-2. `Set` は 仕様でアクセス性能が O(n) 以下であることを要求しており、主要ブラウザの JS エンジンは順序付き HashTable で実装している。
+2. `Set` は 仕様でアクセス性能が O(n) 以下であることを要求しており、主要ブラウザ (Chrome, Firefox, Safari) の JS エンジンは順序付き HashTable で実装している。
 
 ## 参考文献
 
