@@ -1,5 +1,5 @@
 ---
-title: "typescript-eslit v6アップデートガイド"
+title: "typescript-eslint v6 アップデートガイド"
 emoji: "⏫"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["TypeScript", "eslint", "frontend"]
