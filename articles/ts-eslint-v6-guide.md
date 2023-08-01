@@ -7,7 +7,7 @@ publication_name: "cybozu_frontend"
 published: true
 ---
 
-## typescript-eslit v6 リリース！
+## typescript-eslint v6 リリース！
 
 2023/07/10 に typescript-eslint の v6 がリリースされました。
 
