@@ -42,43 +42,49 @@ JavaScript の場合、生成される AST に対して標準化団体が策定�
 
 `using Declarations` は [`Explicit Resource Management`](https://github.com/tc39/proposal-explicit-resource-management)と呼ばれる proposal で使われる構文で、2023/08 現在 Stage3 の Proposal です。TypeScript としては v5.2 からサポートされる機能になります。
 
-ここでは `Explicit Resource Management` 自体への詳しい解説は避けますが、簡単にいうと〇〇をサポートする機能です。`using` と呼ばれる構文はこの「」に対して利用されます。
+ここでは `Explicit Resource Management` 自体への詳しい解説は避けますが、簡単にいうと「リソースの確保と開放を、変数の初期化と破棄に紐付けるような挙動」をサポートする機能です。`using Declarations` 構文はこの中で明示的にリソースを確保・開放したいデータを代入する変数を宣言するとき利用されます。
 
 ### `using` と `await using`
 
 `using Declarations` は `const` や `let` などと同じような使われ方をイメージするとわかりやすいでしょう。実際、以下の例のように変数の宣言をする際変数名の前につけて利用します。
 
 ```typescript
-// sample
+using handle = open("./path/to/file.txt");
 ```
 
-また派生として `await using` という記法もあります。こちらは...。
+また派生として `await using` という記法もあります。こちらは非同期にリソースの確保・破棄をする必要がある場合に使われます。見慣れないですが、 `await using` で 1 まとまりの宣言です。
 
 ```typescript
-// sample
+await using handle = await open("./path/to/file.txt");
 ```
 
-また `using` は `for-of` でも利用できます。具体的には以下のような使い方になります。
+また `using` は `for-of` でも利用できます。これも `let` や `const` と同じですね。具体的には以下のような使い方になります。
 
 ```typescript
-// sample
+
+for (using x of iter){
+  // ...
+}
+for (await using x of iter){
+  // ...
+}
 ```
 
 ### `using` 構文の制約
 
-このように `const` や `let` と同じような記法の `using Declarations` ですが、`const` や `let` で許されていて、`using Declarations` ではサポートしていない構文が多くあります。今回はその中でも次の項で関係しそうな例を挙げます。
+このように `const` や `let` と同じような記法で利用できる `using Declarations` ですが、`const` や `let` で許されていて、`using Declarations` ではサポートしていない記法が多くあります。今回はその中でも次の項で関係しそうな例を挙げます。
 
 #### 必ず初期化しないといけない
 
 以下の例のように初期化しないような記法は `using Declarations` では許可されていません。
 
 ```typescript
-using x; // ❌ 初期化してない
+using x; // ❌
 ```
 
 #### 分割代入はできない
 
-`using` を利用する場合、分割代入は許可されません。以下の例はいずれも仕様上間違った記法になります。
+`using Declarations` を利用する場合、分割代入は許可されません。以下の例はいずれも仕様上間違った記法になります。
 
 ```typescript
 using {x,y} = hoge(); // ❌
@@ -97,9 +103,11 @@ using [x,y] = fuga(); // ❌
 declare using y = hoge(); // ❌
 ```
 
+以上の前提をもとに、typescript-eslint で `using Declarations` に対応する流れを次の項で説明します。
+
 ## typescript-eslint で新しい構文に対応する
 
-ここからが記事の本題です。上記のような事情を踏まえると、typescript-eslint で新しい構文をサポートするには以下のような対応が必要になります。
+ここからが記事の本題です。これまで説明した事情を踏まえると、typescript-eslint で新しい構文をサポートするには以下のような対応が必要になります。
 
 - 「ESTree 互換の AST」の型を更新する
 - TypeScript Compiler API が生成する AST を「ESTree 互換の AST」に変換するロジックを更新する
@@ -169,21 +177,35 @@ TypeScript Compiler API が生成する AST を「ESTree 互換の AST」に変�
 
 この `src/convert.ts` は 3000 行以上ある非常に大きなファイルですが、やっていることはそこまで複雑ではありません。基本的に以下の処理を繰り返しているだけです。
 
-1. TypeScript Compiler API が生成する AST の Node の type ごとに処理を分岐する。
+1. TypeScript Compiler API が生成する AST の Node type ごとに処理を分岐する。
 2. 分岐されたそれぞれの case で ESTree 互換の AST に変換するロジックを書く。
-3. AST が入れ子になっている場合(終端 Node 以外は基本入れ子になっている)は再起的にこの変換ロジックを呼ぶ(以降終端の Node に至るまで再起的に 1.に戻っていく....)
+3. AST が入れ子になっている場合(終端 Node 以外は基本入れ子になっている)は再起的にこの変換ロジックを呼ぶ(以降終端の Node に至るまで再起的に 1.が呼び出される)
 
 今回の例で言えば `VariableDeclaration` Node を生成する部分に処理を追加する必要がありそうです。具体的に[`VariableDeclaration` Node を生成する部分](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/convert.ts#L984-L991)を見ると、`getDeclarationKind` というメソッドで `kind` プロパティを判定しているようです。
 
+#### `let | const | var | using | await using` を判定する
+
+これら `VariableDeclaration` Node の kind を判別する際は基本的に以下の 2 つのビット論理積を取ることで判別できます。
+
+- TypeScript Compiler API が生成する AST の `VariableDeclaration` Node にある flags プロパティの値
+- TypeScript で Node ごとに決まっている Flag の値
+
+これらは両方とも 2 の指数で設定されているため、同じ種類の Flag 同士のビット論理積だけ 0 より大きくなり、それ以外は 0 となるようになっています。
+
+しかしながら `await using` だけは [`Const` の Flag と `Using` の Flag のビット論理和をとると言う定義](https://github.com/microsoft/TypeScript/blob/c3c5abb3a7d960de6e2fb75bc2a74fb90d9109b6/src/compiler/types.ts#L787)になっており、単純にビット論理積をとると `await using` の Flag 以外でも 0 より大きくなってしまいます。(例えば `Const` のフラグ `0b010` と　`await using` の Flag `0b0110` のビット論理積は `0b010` になってしまいます。)
+
+このため今回の実装では[先に `await using` の可能性を排除した上で、`Const` や `Using` の Flag とビット論理積を取る](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/node-utils.ts#L344-L353)ような実装にする必要がありました。
+
 #### 仕様上許されていない構文の AST が生成されそうになった時になるべくエラーを投げる。
 
-TypeScript Compiler API は仕様上許されていないような構文に関してもある程度寛容にパースできるようになっています。そのため、必要に応じて変換処理中で不正な AST に対してエラーを投げる必要が出てきます。
+TypeScript Compiler API は仕様上許されていないような構文に関してもある程度寛容にパースできるようになっています。そのため場合によっては変換処理中で不正な AST に対してエラーを投げる必要が出てきます。
 
-具体的には今回 n つのケースでエラーを投げるように実装しました。
+具体的には今回 4 つのケースでエラーを投げるように実装しました。
 
-- WIP
-- WIP
-- WIP
+- [`using Declarations` で初期化していることのチェック](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/convert.ts#L1001-L1006)
+- [`using Declarations` で分割代入をしていないことのチェック](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/convert.ts#L1007-L1012)
+- [`for-of` 文で `using Declarations` を使った時に初期化されていないことのチェック](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/convert.ts#L1037C10-L1042)
+- [`for-of` 文内の `using Declarations` で分割代入をしていないことのチェック](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/typescript-estree/src/convert.ts#L1043-L1048)
 
 ### スナップショットテストを追加する。
 
@@ -204,20 +226,24 @@ TypeScript Compiler API は仕様上許されていないような構文に関�
 
 ```
 
-今回であれば [`src/declaration/VariableDeclaration/fixtures/`](https://github.com/typescript-eslint/typescript-eslint/tree/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures) にテストケースを足していきます。具体的には以下の n 点のテストケースを追加しました。
+今回であれば [`src/declaration/VariableDeclaration/fixtures/`](https://github.com/typescript-eslint/typescript-eslint/tree/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures) にテストケースを足していきます。具体的には以下の 6 点のテストケースを追加しました。
 
 - 正常系
-  - WIP
+  - [`await using` で複数の変数の初期化を行うパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/await-using-multiple-declarations/fixture.ts)
+  - [`using` で複数の変数の初期化を行うパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/using-multiple-declarations/fixture.ts)
+  - [`await using` で初期化を行うパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/await-using-with-value/fixture.ts)
+  - [`using` で初期化を行うパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/using-with-value/fixture.ts)
 - 異常系
-  - WIP
+  - [`using` で分割代入をしているパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/_error_/object-binding-patterns-in-using/fixture.ts)
+  - [`using` で初期化をしていないパターン](https://github.com/typescript-eslint/typescript-eslint/blob/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/declaration/VariableDeclaration/fixtures/_error_/missing-value-in-using/fixture.ts)
 
-また for-of 文での動作もある程度保証したかったので、[for-of 文の AST 型定義がある場所](https://github.com/typescript-eslint/typescript-eslint/tree/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/statement/ForOfStatement/)にも正常系のテストケースを追加しています。
+また for-of 文での動作もある程度保証したかったので、[for-of 文の AST 型定義がある場所](https://github.com/typescript-eslint/typescript-eslint/tree/c11e05c97ef80d36fd194ac15952c339c1612b9e/packages/ast-spec/src/statement/ForOfStatement/)にも正常系のテストケースを１件追加しています。
 
 ## 終わりに
 
 これで、typescript-eslint 並びに `@typescript-eslint/typescript-estree` を利用しているツールは `using Declarations` を正しくパースできるようになりました。今回は自分が対応する機会をいただきましたが、typescript-eslint では新しい構文が TypeScript に入るたびにこのような対応を行なっています。(しかも RC が出てから対応する方針なので結構忙しい時もあるのではと個人的には心配になります。) この記事を元にツールの裏側の仕組みやツールを支えている方々の活動にも目をむけてくれる人が増えれば嬉しい限りです。
 
-またこの `using Declarations` 対応は [sousukesuzuki 氏]()の勧めとサポートのおかげで行うことができました。本当にありがとうございます。
+またこの `using Declarations` 対応は [sousuke 氏](https://twitter.com/__sosukesuzuki)の勧めとサポートのおかげで行うことができました。本当にありがとうございます。
 
 [^1]: Rome など、AST ではなく CST（Concrete Syntax Tree: 具象構文木）を採用しているツールもあるので必ず AST を使っているとは限りません。
 [^2]: あくまでも厳密な標準仕様ではなく、ツール間の互換性のために守られている約束に近いので微妙に違ったり、独自の拡張をしていることが多いです。
