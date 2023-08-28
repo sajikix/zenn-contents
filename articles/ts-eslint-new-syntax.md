@@ -4,7 +4,7 @@ emoji: "🌲"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["TypeScript", "eslint", "frontend"]
 publication_name: "cybozu_frontend"
-published: false
+published: true
 ---
 
 ## 新しい構文がやってくる
