@@ -1,11 +1,13 @@
 ---
-title: "<details>要素のname属性サポート・CSSネスティングの書式が柔軟に - What's new in Browsers!"
+title: "<details>要素のname属性サポート・:dir() CSS 擬似クラスなど - What's new in Browsers!"
 emoji: "🪗" # お好きな絵文字を
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["CybozuFrontendWeekly", "frontend"]
-published: false
+published: true
 publication_name: "cybozu_frontend"
 ---
+
+※ この記事は [Cybozu Frontend Advent Calendar 2023](https://adventar.org/calendars/9255) の 2 日目の記事です !
 
 What's new in Browsers!は、サイボウズのフロントエンドエンジニアがブラウザの最新情報から気になるトピックを紹介するシリーズです。
 今回は Chrome 120 の更新内容から CSS/HTML に関する気になるトピックとして以下の 4 つをピックアップして紹介します。
@@ -131,3 +133,9 @@ CSS のメディアクエエリのメディア特性に `scripting` が追加さ
 | Media Queries: scripting feature                                         | ✅(113) | ✅(17)    |
 
 今回紹介した機能に関しては Safari はほとんど対応しており、Firefox は一部未サポートという状況です。逆に Chrome120 がサポートしたことにより主要 3 ブラウザでサポートが揃ったのは `:dir()` pseudo-class selector と Media Queries: scripting feature になります。
+
+## 終わりに
+
+Cybozu Frontend Advent Calendar はこちら。
+
+https://adventar.org/calendars/9255
