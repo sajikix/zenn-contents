@@ -1,5 +1,5 @@
 ---
-title: "EcmaScript考古学をするときに"
+title: "ECMAScript考古学をするときに"
 emoji: "📜"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "frontend"]
@@ -10,12 +10,12 @@ published: false
 ※この記事は [Cybozu Frontend Advent Calendar 2023](https://adventar.org/calendars/9255) の 8 日目の記事です。
 
 :::message
-これは著者が Intl（ECMAScript の国際化 API）策定までの議論を追った際に得た知見をもとに「EcmaScript の仕様策定を 10 年以上遡って調べたい時にどうするか」について書いた記事です。仕様の種類や策定している年代によっては紹介する方法が当てはまらない可能性もあるので注意してください。
+これは著者が Intl（ECMAScript の国際化 API）策定までの議論を追った際に得た知見をもとに「ECMAScript の仕様策定を 10 年以上遡って調べたい時にどうするか」について書いた記事です。仕様の種類や策定している年代によっては紹介する方法が当てはまらない可能性もあるので注意してください。
 :::
 
 ## 仕様を調べるとプロセスが気になってくる
 
-EcmaScript の仕様を調べていると時折「何でこの仕様は入ったんだろう」とか「採用されるまでにどういった議論がなされたんだろう」といったことが気になる時があります。
+ECMAScript の仕様を調べていると時折「何でこの仕様は入ったんだろう」とか「採用されるまでにどういった議論がなされたんだろう」といったことが気になる時があります。
 
 新しい仕様の策定や stage 変更は必ず ECMAScript の仕様策定している TC39 のミーティングを経て行われていますから、基本的にミーティング議事録を漁れば上記のような「モチベーション」や「策定までの議論」を見つけることがでるはずです。
 
@@ -50,7 +50,7 @@ EcmaScript の仕様を調べていると時折「何でこの仕様は入った
 
 このように「今や当たり前になった構文」の策定に関する議論を追おうとすると 2012 年までの議事録では足りないケースが出てくるのです。
 
-## 2012 年以前の EcmaScript 仕様策定を追う
+## 2012 年以前の ECMAScript 仕様策定を追う
 
 では 2012 年以前の議事録やそれに付随する議論はどうやって追えばいいのでしょうか？
 
@@ -60,7 +60,7 @@ https://ecma-international.org/ecmascript-development-archive/
 
 この ECMAScript Archives にまとまっている資料は大きく 3 つに分類されています。
 
-- Ecma General Assembly Documents : Ecma 総会の議事録で EcmaScript に関する部分だけがアーカイブされている。
+- Ecma General Assembly Documents : Ecma 総会の議事録で ECMAScript に関する部分だけがアーカイブされている。
 - TC39 Documents : TC39 meeting のアジェンダや議事録 meeting で利用された提案書、draft 仕様書並びにそのレビューなどが含まれる。
 - それ以外の文書 : 初期に多くあった非公式のワーキンググループや Ecma アーカイブに収録されていないメモ・提案書・wiki・メーリングリストなどがまとまっている。
 
@@ -92,9 +92,5 @@ https://ecma-international.org/ecmascript-development-archive/
 ## おわりに
 
 このように GitHub 上に残っていない仕様策定の議論についても ECMAScript Archives や関連する資料・アーカイブを活用するとある程度調べることができます。今回 10 年以上前の議論を遡って調べる中で、仕様策定の議論や当時の状況を追えるよう資料をなるべくまとめて残していること、GitHub に移行して誰でもアクセスしやすい形で仕様策定を行なっている現状の体制のありがたさを改めて感じることとなりました。
-
-Cybozu Frontend Advent Calendar 2023 はこちらになります。
-
-https://adventar.org/calendars/9255
 
 [^1]: 議事録のリポジトリはもともと参加者の一人が個人的にまとめていたリポジトリだったものを移行したため別れているようです。
