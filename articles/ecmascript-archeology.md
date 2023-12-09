@@ -23,19 +23,19 @@ ECMAScript の仕様を調べていると時折「何でこの仕様は入った
 
 近年の TC39 のミーティングアジェンダと議事録はそれぞれ次の GitHub のリポジトリにまとまっています。
 
-- アジェンダ : https://gitnub.com/tc39/agendas
-- 議事録 : https://gitnub.com/tc39/notes/tree/main/meetings
+- アジェンダ : https://github.com/tc39/agendas
+- 議事録 : https://github.com/tc39/notes/tree/main/meetings
 
 歴史的経緯[^1]からアジェンダと議事録が別のリポジトリになっていますが、基本的にはアジェンダから議題をチェックしそれを元に議事録で該当する仕様を探すことになります。また探したい仕様の名前がわかっていれば全体検索でも探せます。ただし Proposal の名前や API が策定の途中で変更になることはよくあるので検索の際は注意が必要です。
 
 また ECMA402（`Intl`）に関しては現在仕様策定のグループが分かれており、 ECMA402 だけのミーティングも開催されています。`Intl` について追う場合は合わせて以下のリポジトリにある議事録を参照すると良いでしょう。
 
-- ECMA402 の meeting 議事録 : https://gitnub.com/tc39/ecma402/tree/master/meetings
+- ECMA402 の meeting 議事録 : https://github.com/tc39/ecma402/tree/master/meetings
 
 さらに仕様に関する議論は仕様書があるリポジトリの issues を通じてある程度開かれて議論されているので、issue を探すのも良いでしょう。
 
-- ECMA262 issue : https://gitnub.com/tc39/ecma262/issues
-- ECMA402 issue : https://gitnub.com/tc39/ecma402/issues
+- ECMA262 issue : https://github.com/tc39/ecma262/issues
+- ECMA402 issue : https://github.com/tc39/ecma402/issues
 
 ## 「近年」の議事録はある。でもそれより前は...
 
