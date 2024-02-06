@@ -11,6 +11,8 @@ published: false
 
 JavaScript には Intl と呼ばれる国際化 API があり、日時や数値のフォーマットを始めとする国際化に便利な機能が揃っています。Intl.Segmenter はこの Intl の一機能で、文字・単語・文章単位での文字列分割を可能にします。
 
+https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Intl/Segmenter
+
 文字単位での分割では複数のコードユニットやコードポイントを持った文字を考慮し、正確に見た目上の１文字（書記素）で分割できるので、絵文字を含んだ文字数のカウントなどに便利です。
 
 ```ts
@@ -272,9 +274,13 @@ https://github.com/tc39/proposal-intl-segmenter/issues/133
 
 ## まとめ
 
+Intl.Segmenter の実装に関してまとめると以下のようになります。
+
 - Intel.Segmenter の分割の仕組みはある程度実装に任されている。
 - 主要ブラウザの JS ランタイムでは ICU の BreakIterator あるいは ICU4X の Segmenter を利用している。
-- ICU の BreakIterator 　並びに ICU4X の Segmenter は IPA 辞書を利用したある程度簡易的な単語の分割を行なっている。
+- ICU の BreakIterator 並びに ICU4X の Segmenter は IPA 辞書を利用したある程度簡易的な単語の分割を行なっている。
+
+今回 Segmenter の実装を追うことで挙動だけでなく JS と Unicode の関連や ICU についてもより知ることができました。またこの記事が JavaScript の仕様やランタイムの実装について調べるヒントとなれば幸いです。
 
 ## 参考文献
 
