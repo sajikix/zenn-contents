@@ -4,7 +4,7 @@ emoji: "🕵️‍♂️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "frontend", "Intl", "i18n", "Unicode"]
 publication_name: "cybozu_frontend"
-published: false
+published: true
 ---
 
 ## Intl.Segmenter についておさらい
