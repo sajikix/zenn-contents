@@ -1,5 +1,5 @@
 ---
-title: "明示的な型注釈によって推論コストを下げるという１つアプローチ"
+title: "明示的な型注釈によって推論コストを下げるというアプローチ"
 emoji: "⏳"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["TypeScript", "frontend"]
