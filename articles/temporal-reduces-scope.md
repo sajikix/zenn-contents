@@ -4,7 +4,7 @@ emoji: "🕰️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "ECMAScript", "frontend"]
 publication_name: "cybozu_frontend"
-published: false
+published: true
 ---
 
 ## Temporal についておさらい
