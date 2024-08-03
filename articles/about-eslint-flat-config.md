@@ -4,7 +4,7 @@ emoji: "👷"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["JavaScript", "eslint", "frontend"]
 publication_name: "cybozu_frontend"
-published: false
+published: true
 ---
 
 :::message
@@ -17,7 +17,7 @@ ESLint が新しい設定形式として FlatConfig を導入してから随分�
 
 とはいえ次のバージョンである v10 では FlatConfig しかサポートしないことが予定されており、今まで移行を見送ってきた方も「さすがにそろそろ移行するか...」と思っているのではないでしょうか。自身の所属チームで管理している ESLint の rule セット : [@cybozu/eslint-config](https://github.com/cybozu/eslint-config) でも遅ればせながら FlatConfig 対応を進めています。（現在はアルファ版で提供中です）
 
-そんな `@cybozu/eslint-config` を FlatConfig に移行した際の知見を中心に記事を書いてもいいのですが、細かい移行方法については [公式の移行ガイド](https://eslint.org/docs/latest/use/configure/migration-guide) が詳しいですし、詳細な移行事例については今まで多くの記事が出ています。
+そんな `@cybozu/eslint-config` を FlatConfig に移行した際の知見を中心にまとめてもいいのですが、細かい移行方法については [公式の移行ガイド](https://eslint.org/docs/latest/use/configure/migration-guide) が詳しいですし、詳細な移行事例については今まで多くの記事が出ています。
 
 そこでこの記事では少し趣向を変えて「FlatConfig に変わったことで何が嬉しいのか」や「ESLint エコシステム全体での FlatConfig 対応とはどんな作業なのか」といったもう少しコアな部分に焦点を当てて FlatConfig を見ていきます。これにより単なる利用者だけでなく、Sharable Configs を公開している人や自作の plugin を作った人の参考にもなればと思います。もちろん最後には `@cybozu/eslint-config` を FlatConfig に移行する中で得られた細かな知見も共有するので、「FlatConfig については理解してるぜ！」という方はその部分だけでも読んで参考にしてもらえると嬉しいです。
 
@@ -146,7 +146,7 @@ ESLint ではファイルごとに「このファイルに適用する rule は�
 
 このような状態でファイルごとの rule を計算する場合、それだけで多くの依存を解決する必要があり、加えてそれぞれの `config` で `ignore` や glob パターンが設定されていたりするとその計算はさらに複雑になります。またユーザー自体もどの config のどの部分が優先されてマージされるのか認識しづらくなってしまいます。
 
-一方、FlatConfig では設定ファイルを評価した時点で config オブジェクトは**必ず 1 次元の配列**になります。この状態であれば単純に各 `configuration object` の `files` プロパティを見ながらフィルタし、後置された rule が勝つようマージするだけで適用すべき rule が計算できます。
+一方、FlatConfig では設定ファイルを評価した時点で config オブジェクトは**必ず 1 次元の配列**になります(まさに "Flat" と呼ばれる所以ですね)。この状態であれば単純に各 `configuration object` の `files` プロパティを見ながらフィルタし、後置された rule が勝つようマージするだけで適用すべき rule が計算できます。
 
 ![FlatConfigにおけるruleの計算イメージ](/images/aboutEslintFlatConfig/flatConfigCalc.png)
 
