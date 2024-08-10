@@ -91,7 +91,7 @@ const calculated = await eslint.calculateConfigForFile(filePath); // 適用さ�
 
 「lint を適用するファイルの範囲が同じ」ことをチェックするくらいであればまだ何とかなりそうな気もしますが、「適用されている rule・および設定、option が変わっていない」ことのチェックに関しては、微妙な計算値の構造の違いを吸収しつつ正規化も行う必要があります。おまけにこれを lint 対象の全ファイルで行うとなると気が遠くなるでしょう。
 
-そこで、これらをチェックできる `check-eslint-config-compat` という CLI ツールを作ってみました。
+人力で大変ならツールに任せるしかない！...ということで、これをチェックできる `check-eslint-config-compat` という CLI ツールを作ってみました!
 
 https://github.com/sajikix/check-eslint-config-compat
 
