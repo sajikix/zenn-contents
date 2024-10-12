@@ -1,0 +1,9 @@
+title: "フロントエンドで日時と戦うために"
+summary: "本の紹介文"
+topics: ["JavaScript", "datetime", "Temporal"] # トピック（5つまで）
+published: false
+price: 0 # 有料の場合200〜5000
+chapters:
+  - introduction
+  - date-time
+  - basic-specifications
