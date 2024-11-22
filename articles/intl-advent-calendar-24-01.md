@@ -19,10 +19,9 @@ publication_name: "cybozu_frontend"
 
 ### 前提となる知識・ワード
 
-このアドベントカレンダーではその題材の性質上、頻繁に JavaScript の仕様並びに仕様策定に関わる用語が出てきます。ある程度 JavaScript の仕様に興味がある人は知っている知識かもしれませんが、触れたことがない方は以下の記事などを読んで前提知識を持っておくとと読みやすいです。
+このアドベントカレンダーではその題材の性質上、頻繁に JavaScript の仕様並びに仕様策定に関わる用語が出てきます。ある程度 JavaScript の仕様に興味がある人は知っている知識かもしれませんが、触れたことがない方は以下の記事などを読んで前提知識を持っておくと読みやすいです。
 
-- [ECMAScript : JavaScript Primer](https://jsprimer.net/basic/ecmascript/)
-  - JavaScript の仕様 ECMAScript についてバージョンや策定プロセスなどが詳しくまとまっています。
+https://jsprimer.net/basic/ecmascript/
 
 以降の文書・記事では「ECMAScript」、「Proposal」、「Stage」といったワードを使いますが、「それなんだっけ？」となった場合はこちらの記事などで振り返ると良いでしょう。
 
@@ -32,13 +31,13 @@ Intl は ECMAScript(JavaScript[^1]) にある名前空間です。 `Intl.〇〇`
 
 ### 国際化 API のやること
 
-単に「国際化機能」と言われてもピンと来ないかもしれません。Intl の仕様書の序文では Intl の適用範囲について以下のように述べています。
+単に「国際化機能」と言われてもピンと来ないかもしれません。Intl の仕様書の序文ではその適用範囲について以下のように述べています。
 
 > This Standard defines the application programming interface for ECMAScript objects that support programs that need to adapt to the linguistic and cultural conventions used by different human languages and countries.(from ECMA-402, 10th edition)
 
 ざっくり訳すと「さまざまな国や言語・文化によって変わってしまう部分・処理」をサポートする機能をまとめた API と言うところでしょうか。
 
-より具体的には下のような国際化機能を `Intl` は提供しています。
+具体的には以下のような国際化機能を `Intl` は提供しています。
 
 - 日時のフォーマット
 - 数値のフォーマット
@@ -47,13 +46,22 @@ Intl は ECMAScript(JavaScript[^1]) にある名前空間です。 `Intl.〇〇`
 - ロケールの解決
 - 言語に依存した文字列の比較
 
+### Intl の利点
+
+`Intl` 最大の利点は、主要ブラウザや Node.js などのランタイムで言語機能としてサポートされていることです。具体的には次のようなメリットがあります。
+
+- 実装にサードパーティのライブラリを必要としない
+  - JavaScript の組み込みオブジェクトとして利用できるので専用のライブラリなどを追加する必要がありません。これにより専用のライブラリを使っている場合はバンドルサイズの減少が見込めます。またライブラリ独自の記法に依存しないことでコードの再利用性も高くなります。
+- 後方互換性がある程度保証される
+  - JavaScript の補完という形で常に後方互換性を考えながらアップデートされていくため安心して実装できます。これは破壊的な API 変更などの可能性があるライブラリなどとは異なるメリットです。
+
 ### 仕様の位置付けと策定
 
-`Intl` は JavaScript のいち API として利用できますが、仕様の位置付けは他の JavaScript 標準仕様(= ECMAScript)と少し異なっています。
+`Intl` は JavaScript の API として利用できますが、仕様の位置付けは他の JavaScript 標準仕様(= ECMAScript)と少し異なっています。
 
 より厳密に Intl の位置付けを説明すると「ECMAScript を拡張する形で標準化している ECMAScript の国際化 API の総称」と言うことになります。
 
-このように Intl は ECMAScript の拡張仕様なので一般的な ECMAScript の仕様と別れた仕様番号[^2]で管理されています。一般的な ECMAScript の仕様が ECMA262 と言う仕様番号がついているのに対し、Intl は ECMA402 という仕様番号で管理されています。したがってこの ECMA262 と ECMA402 を合わせた集合がいわゆる「JavaScript の仕様」として一般的に捉えられていると理解して良いでしょう。
+このように Intl は ECMAScript の**拡張仕様**なので一般的な ECMAScript の仕様と別れた仕様番号[^2]で管理されています。一般的な ECMAScript の仕様が ECMA262 と言う仕様番号がついているのに対し、Intl は ECMA402 という仕様番号で管理されています。この ECMA262 と ECMA402 を合わせた集合がいわゆる「JavaScript の仕様」として一般的に捉えられていると理解して良いでしょう。
 
 #### Intl の仕様について調べるときの注意点
 
@@ -63,7 +71,7 @@ Intl は ECMAScript(JavaScript[^1]) にある名前空間です。 `Intl.〇〇`
 
 https://tc39.es/ecma402/
 
-また Intl(ECMA402) の仕様は TC39 の中でも専門の TaskGroup(TC39 の中の５つある分科会)[^2] で議論されていることが多く、 ECMAScript 全体の meeting とは別に ECMA402 の(ほぼ)月次議事録が残されています。
+また Intl(ECMA402) の仕様は TC39 の中でも専門の TaskGroup(TC39 の中の５つある分科会)[^3] で議論されていることが多く、 ECMAScript 全体の meeting とは別に ECMA402 の(ほぼ)月次ミーティング議事録が残されています。
 
 https://github.com/tc39/ecma402/tree/main/meetings
 
@@ -73,16 +81,25 @@ https://github.com/tc39/ecma402/tree/main/meetings
 
 https://github.com/tc39/proposals/blob/HEAD/ecma402/README.md
 
-このように微妙 Intl について調べていると微妙にリソースが分かれていることがあるので注意しながら調べるようにしましょう。
+このように Intl について調べていると他の ECMAScript と微妙にリソースが分かれていることがあるので注意しながら調べるようにしましょう。
 
-## Intl の基本となる IF
+## Intl API の全体像と基本となる IF
+
+次に Intl API の全体像と基本となる IF について見ていきます。
 
 ### コンストラクタプロパティとメソッド
 
 Intl は多くの機能をコンストラクタプロパティとして保持しており、2024 年 12 月現在 9 つのコンストラクタプロパティを持っています。
 
-- List
-<!-- todo list -->
+- `Intl.Collator()`
+- `Intl.DateTimeFormat`
+- `Intl.DisplayNames()`
+- `Intl.ListFormat()`
+- `Intl.Locale()`
+- `Intl.NumberFormat()`
+- `Intl.PluralRules`
+- `Intl.RelativeTimeFormat()`
+- `Intl.Segmenter()`
 
 またそれ以外にロケールや Intl 自体の機能に関するメタ的な情報を返すメソッドが 2 つ存在しています。
 
@@ -119,5 +136,6 @@ Intl の主要な機能はコンストラクタプロパティとして提供さ
 <!-- 今回はIntlについての概要と基本となるIFの説明をした -->
 <!-- 明日は Intl.Localeオブジェクトとそのオプションについて書きます -->
 
-[^1]: JavaScript の仕様に言及する場合は原則 ECMAScript の名称を使用します、
-[^2]: Intl などの国際化 API について話し合うのは TG2 です。
+[^1]: JavaScript の仕様に言及する場合は原則 ECMAScript の名称を使用します。
+[^2]: ECMA International では策定している仕様ごとに番号がついています。
+[^3]: Intl などの国際化 API について話し合うのは TG2 です。
