@@ -93,7 +93,7 @@ https://github.com/tc39/proposals/blob/HEAD/ecma402/README.md
 
 ### コンストラクタプロパティとメソッド
 
-Intl は多くの機能をコンストラクタプロパティとして保持しており、2024 年 12 月現在 9 つのコンストラクタプロパティを持っています。
+Intl は多くの機能をコンストラクタプロパテ o ィとして保持しており、2024 年 12 月現在 9 つのコンストラクタプロパティを持っています。
 
 - `Intl.Collator()`
 - `Intl.DateTimeFormat`

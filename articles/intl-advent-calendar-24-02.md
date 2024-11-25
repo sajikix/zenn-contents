@@ -1,5 +1,5 @@
 ---
-title: "Intl.Localeオブジェクトとオプション(#2)"
+title: "ロケール識別子(BCP47)とUnicode拡張について(#2)"
 emoji: ""
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
@@ -9,86 +9,92 @@ publication_name: "cybozu_frontend"
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 2 日目の記事です。
 
-今回は Intl.Locale オブジェクトについてその使い所やオプションを解説します。
+今回はロケール識別子(言語タグ)とその仕様 BCP47 について解説します。
 
-## Intl.Locale オブジェクトとは
+## ロケール識別子について
 
-1 つの Intl.Locale オブジェクトは Intl が用意している、「ロケール情報をより簡単に操作するため」のオブジェクトです。
+[1 日目の記事]()で解説した通り、Intl のコンストラクタプロパティは必ず第１引数にロケール識別子か Intl.Locale オブジェクト(またはそれらの配列)を受け取ります。この記事ではその中でも一般的に使われる「ロケール識別子」についてその仕様を確認しておきます。(Intl.Locale オブジェクトについては続く 3 日目と 4 日目の記事で詳しく解説します。)
 
-ここで言うロケール情報とは以下のような情報のことです。
+### ロケール識別子の仕様 : BCP47
 
-- 言語
-- 地域
-- 文字体系
-- カレンダー
-- etc..
+ロケール識別子は「言語タグ」などとも呼ばれるロケールを識別するための文字列のことです。具体的には `"ja-JP"` や `"en-US"` といったよく目にする文字列がこれにあたります。
 
-同じくロケール情報を表せるものとして、`ja-JP` のようなロケール識別子(言語タグ)がありますが、これらと比べ Intl.Locale オブジェクトは以下の点でアドバンテージがあります。
+このロケール識別子は IETF という標準化団体が策定する２つの仕様、[RFC 5646]() と [RFC 4647]() でその仕様が定義されています。またこの２つの仕様を合わせて **BCP47(Best Current Practice)**[^1]と呼びます。このことからロケール識別子は IETF 言語タグなどとも呼ばれます。
 
-- ローケルに関する各項目を簡単に取得できる
-  - ロケール識別子の場合パースが必要ですが Intl.Locale オブジェクトでは言語や地域といった情報をプロパティにアクセスするだけで取得できます。
-- ローケルに関する各項目を簡単に変更できる
-  - ロケール識別子の場合パース → 該当部分の書き換えという処理が必要になりますが、Intl.Locale オブジェクトではプロパティに値をセットするだけです。
+### BCP47 の基本 : サブタグ
 
-一方 Intl.Locale オブジェクトは JS のオブジェクトなので当然ロケール識別子と比べるとシリアライズが面倒という問題はあります。従ってサーバーなど違うランタイムとのやり取りなどではロケール識別子の方が優れる場合もあります。
+ロケール識別子は「サブタグ」と呼ばれる要素を `-` でつないだ文字列で構成されます。サブタグには次の 6 種類が存在し、上から順にサブタグをつなげていくことで 1 つの言語タグが構成されます。
 
-### どこで使うか
+- 言語サブタグ
+  - 言語を表す文字列
+  - 例: `ja` や `en` など
+- 文字体系サブタグ
+  - 文字体系を表す文字列
+  - 例: `Hant`(繁体字) / `Hans`(簡体字) など
+- 地域 (または国) サブタグ
+  - 国や地域を表す文字列
+  - 例: `CN` , `US` など
+- 変化形サブタグ
+  - 言語の方言や変化系などを表す文字列
+  - `emodeng`("Early modern English" 方言) など
+  - 複数指定できるがすべて固有でなければならない
+- BCP 47 拡張シーケンス
+  - 単一の数字または文字 ("x" 以外) と、ハイフンで区切られた 1 つ以上の 2 から 8 文字の文字または数字によるサブタグ
+  - 例: `u-ca-japanese`
+  - 複数指定できる
+- 私的に使用する拡張シーケンス
+  - 私的利用部分
 
-[1 日目の記事]()で解説した通り、Intl のコンストラクタプロパティは必ず第１引数にロケール識別子か Intl.Locale オブジェクトを受け取ります。
+実際にこれらを `"-"` つなぐと以下のような形になります。
 
-```ts
-const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" });
-// Intl.LocaleをIntl のコンストラクタプロパティで第１引数として利用する例
-const formatter = new Intl.DateTimeFormat(jpLocale, { calendar: "japanese" });
+```
+[言語]-[文字体系]-[地域]-[変化形]-[BCP 47 拡張]-[私的に使用する拡張]
 ```
 
-したがって一度用途にあったロケール情報を含む Intl.Locale オブジェクトを作成すれば、Intl のコンストラクタプロパティで共通のロケールを利用できるようになります。
+たとえば、1~3 つ目のサブタグを使って「台湾で利用される繁体字の中国語」を表したい場合 `zh-Hant-TW` のようになるわけです。
 
-## Intl.Locale オブジェクトの作成とオプション
+ちなみに言語、文字体系、地域、変化形サブタグで使える値に関しては IANA[^2] の[language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)で管理されています。これらの値は定期的に更新されていますが、ブラウザに反映されるには時間差があったりするので注意しましょう。
 
-ここからは Intl.Locale オブジェクトを利用する方法について具体的に見ていきます。Intl.Locale オブジェクトは `Intl.Locale()` コンストラクタを初期化することで得られます。
+### BCP 47 拡張シーケンスと u 拡張
+
+この中でもあまり見慣れないであろう 5 番目のサブタグ、「BCP 47 拡張シーケンス」についてもう少し掘り下げましょう。
+
+BCP 47 拡張シーケンスは　`[1文字(x以外)]-[2~8文字]-[2~8文字(任意)]` という形で構成されるサブタグで、ロケール識別子に情報を追加し拡張することを目的に作られたサブタグです。ただしユーザーが好きに設定できるわけではなく、登録[^3]された形のものしか指定できません。現在登録されているものは以下の３種類です。
+
+- "u" (Unicode) 拡張
+  - ロケールを識別するために必要な追加情報を含めることができる
+  - `u-[key]-[value]` の形式
+  - 例: `u-ca-japanese` → 日時書式で和暦を使用
+- "t" (transformed) 拡張
+  - 他のロケールから翻訳されたテキストなど、変換されたコンテンツを示す
+  - `t-[value]`
+  - 例: `t-it` → イタリア語からの翻訳
+- "x"拡張
+  - ユーザーで好きに使えるの拡張シーケンス
+  - `ja-JP-x-saji` みたいなことができる
+
+このうち Unicode 拡張部分の細かい仕様(実際にどのような key と value を持つのか)は Unicode 側に任されています。実際にどのような key と value が入るかは以下のドキュメントを参考にしてください。
+
+https://www.unicode.org/reports/tr35/#Locale_Extension_Key_and_Type_Data
+
+またこの中で、"t" (transformed) 拡張と"x"拡張は Intl ですべて無視されますが、 Unicode 拡張は `Intl` の各所で解釈され挙動のカスタマイズに使用されます。たとえば `Intl.DateTimeFormat()` を利用する際に `ja-JP-u-ca-japanese` というロケール識別子でロケールを指定すると「日時書式に和暦を使用する」という意味になります。
 
 ```ts
-const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" });
+const formatter = new Intl.DateTimeFormat("ja-JP-u-ca-japanese"); // u-ca-japanese がUnicode拡張
+formatter.format(new Date(Date.UTC(2023, 7, 7)));
+// → 'R5/8/7'（和暦）
 ```
 
-第１引数はロケール識別子(言語タグ)を受け取ります。一見他の Intl のコンストラクタプロパティと同様に思えますが、以下の２点で異なるので注意が必要です。
+今度の記事の説明で `u-[key]-[value]` などの値が出てきた時はこの記事の説明を思い出して読み進めてください。
 
-- 文字列のロケール識別子しか受け取らない
-- ロケール識別子配列や `undefined` を受け取らない
+## まとめ
 
-第２引数はロケール情報を構成または補う情報を指定できるオプションです。具体的には以下の９つのオプションが存在しています。
+今回はケール識別子(言語タグ)とその仕様 BCP47 について解説しました。次回 3 日目では Intl.Locale のプロパティと Intl Locale Info proposal について解説します。
 
-- `language`
-  - 言語を指定するオプション
-  - 例 : `ja`,`en` のような言語の種別
-  - 基本的にはロケール識別子で指定することが多いがオプションでも指定できる
-- `script`
-  - 文字体系を指定するオプション
-  - 例 : `Hant` : 繁体字と `Hans` : 簡体字など
-  - 基本的にはロケール識別子で指定することが多いがオプションでも指定できる
-- `region`
-  - 地域を指定するオプション
-  - 例: `US`/`UK`(`en-US`/`en-UK`)など
-  - 基本的にはロケール識別子で指定することが多いがオプションでも指定できる
-- `calendar`
-  - 使用する暦のオプション
-  - 例: `japanese`(和暦)や `hebrew`(ヘブライ暦)など
-  - ここの指定すると `Intl.DateTimeFormat` で考慮してくれる
-- `collation`
-  - a
-  - The collation. Any syntactically valid string following the type grammar is accepted, but the implementation only recognizes certain kinds, which are listed in Intl.Locale.prototype.getCollations.
-- `numberingSystem`
-  - The numbering system. Any syntactically valid string following the type grammar is accepted, but the implementation only recognizes certain kinds, which are listed in Intl.Locale.prototype.getNumberingSystems.
-- `caseFirst`
-  - The case-first sort option. Possible values are "upper", "lower", or "false".
-- `hourCycle`
-  - The hour cycle. Possible values are "h23", "h12", "h11", or the practically unused "h24", which are explained in Intl.Locale.prototype.getHourCycles
-- `numeric`
-  - The numeric sort option. A boolean.
+## 参考文献
 
-ちなみにロケール識別子とオプションがぶつかった場合はが優先されます
+- https://www.unicode.org/reports/tr35/#Locale_Extension_Key_and_Type_Data
 
-<!-- コード例 -->
-
-### 実際のユースケース
+[^1]: BCP
+[^2]: IANA
+[^3]: IETF
