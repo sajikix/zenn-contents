@@ -13,6 +13,6 @@ publication_name: "cybozu_frontend"
 
 ## 日時のフォーマット : Intl.DateTimeFormat
 
-## 基本的な使い方
+### 基本的な使い方
 
 ## DateTimeFormat 　インスタンスの持つメソッド

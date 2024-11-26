@@ -16,3 +16,7 @@ publication_name: "cybozu_frontend"
 ## Intl Era and MonthCode Proposal
 
 ## eraDisplay option for Intl.DateTimeFormat
+
+## まとめと次回予告
+
+## 参考文献
