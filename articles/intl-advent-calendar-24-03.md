@@ -23,18 +23,13 @@ publication_name: "cybozu_frontend"
 - カレンダー
 - etc..
 
-同じくロケール情報を表せるものとして、[2 日目で紹介した]()ロケール識別子(言語タグ)がありますが、これらと比べ Intl.Locale オブジェクトは以下の点でアドバンテージがあります。
-
-- ローケルに関する各項目を簡単に取得できる
-  - ロケール識別子の場合パースが必要ですが Intl.Locale オブジェクトでは言語や地域といった情報をプロパティにアクセスするだけで取得できます。
-- ローケルに関する各項目を簡単に変更できる
-  - ロケール識別子の場合パース → 該当部分の書き換えという処理が必要になりますが、Intl.Locale オブジェクトではプロパティに値をセットするだけです。
+同じくロケール情報を表せるものとして、[2 日目で紹介した](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)ロケール識別子(言語タグ)がありますが、これらと比べ Intl.Locale オブジェクトはロケール文字列を自前でパースする必要がなく、用途に合わせてローケルに関する各項目を簡単に取得できるというメリットがあります。
 
 一方 Intl.Locale オブジェクトは JS のオブジェクトなので当然ロケール識別子と比べるとシリアライズが面倒という問題はあります。従ってサーバーなど違うランタイムとのやり取りなどではロケール識別子の方が優れる場合もあります。
 
 ### 使う場面
 
-[1 日目の記事]()で解説した通り、Intl のコンストラクタプロパティは必ず第１引数にロケール識別子か Intl.Locale オブジェクト(またはそれらの配列)を受け取ります。
+[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは必ず第１引数にロケール識別子か Intl.Locale オブジェクト(またはそれらの配列)を受け取ります。
 
 ```ts
 const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" });
@@ -42,7 +37,7 @@ const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" });
 const formatter = new Intl.DateTimeFormat(jpLocale, { calendar: "japanese" });
 ```
 
-したがって一度アプリケーションの用途にあった Intl.Locale オブジェクトを作成すれば、そのオブジェクトを利用した Intl のコンストラクタプロパティで共通のロケールを利用できるようになります。
+したがって一度アプリケーションの用途にあった Intl.Locale オブジェクトを作成すれば、Intl のコンストラクタプロパティを初期化する際に共通のロケールを利用できるようになります。
 
 ## Intl.Locale オブジェクトの作成とオプション
 
@@ -110,9 +105,9 @@ const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" });
 const locale = new Intl.Locale("ja-JP", { language: "en", region: "US" }); //
 ```
 
-この場合ロケール識別子よりもオプションで指定した値、つまり `en-US` の方が優先されます。ミス以外でこのような矛盾した値をセットすることは少ないでしょうがミスを発見する際などの役立つでしょう。
+この場合ロケール識別子よりもオプションで指定した値、つまり `en-US` の方が優先されます。このような矛盾した値をセットすることは少ないでしょうがミスを発見する際などの役立つでしょう。
 
-また特定の機能の挙動を変えるオプションは Intl.Locale オブジェクトを初期化する場合以外でも指定できます。例えば `hourCycle` などは Intl.DateTimeFormat でも初期化のオプションとして指定できます。では Intl.Locale の初期化時と、その Intl.Locale オブジェクトを利用した各 API のオプションで違う値を指定した場合どちらが優先されるのでしょうか。
+また特定の機能の挙動を変えるオプションは Intl.Locale オブジェクトを初期化する場合以外でも指定できます。例えば `hourCycle` などは `Intl.DateTimeFormat` でも初期化のオプションとして指定できます。では Intl.Locale の初期化時と、その Intl.Locale オブジェクトを利用した各 API のオプションで違う値を指定した場合どちらが優先されるのでしょうか。
 
 ```ts
 const jpLocale = new Intl.Locale("ja-JP", { hourCycle: "h12" }); // Intl.Locale オブジェクト初期化時は h12 を指定
@@ -122,7 +117,7 @@ formatter.format(new Date());
 
 この場合、 Intl.Locale オブジェクトを利用する各 API のオプションの方が優先されます。したがって上の例では `"h23"` の方が優先されて「０時始まりの 24 時表記」になります。
 
-よってまとめると
+よってまとめると、
 
 - ロケール識別子と初期化オプションでは初期化オプションの方が優先される
 - Intl.Locale オブジェクトを初期化オプションと各 API のオプションでは各 API のオプションの方が優先される
@@ -131,9 +126,9 @@ formatter.format(new Date());
 
 ### ロケール識別子では細かいオプションを表現できないのか？
 
-このように Intl.Locale オブジェクトの初期化では一般的なロケール識別子(`"en-US"` みたいなもの)よりも多くのオプションを指定できているように見えます。これらの情報をロケール識別子に含めることはできないのでしょうか？(できない場合ロケール識別子は含められる情報量の面でも下位互換になってしまうのでしょうか？)
+このように Intl.Locale オブジェクトの初期化では一般的なロケール識別子よりも多くのオプションを指定できているように見えます。これらの情報をロケール識別子に含めることはできないのでしょうか？(できない場合ロケール識別子は含められる情報量の面でも下位互換になってしまうのでしょうか？)
 
-実は Intl.Locale オブジェクトで指定できるすべてのオプションは u(Unicode)拡張を利用してロケール識別子に含めることができます(Unicode 拡張については[2 日目の記事]()で解説しました)。
+実は Intl.Locale オブジェクトで指定できるすべてのオプションは u(Unicode)拡張を利用してロケール識別子に含めることができます。(Unicode 拡張については[2 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)で解説しました)。
 
 具体的には各オプションがそれぞれ以下の Unicode 拡張に対応します。
 
@@ -144,9 +139,9 @@ formatter.format(new Date());
 - `hourCycle` → `u-hc-[value]`
 - `numeric` → `u-kn-[value]`
 
-例えば `hourCycle` オプションで `h12` を指定するのは `u-hc-h12` のような Unicode 拡張をロケール識別子に含むと同じ意味になります。
+例えば `hourCycle` オプションで `h12` を指定するのは `u-hc-h12` のような Unicode 拡張をロケール識別子に含むのと同じ意味になります。
 
-従って Intl.Locale オブジェクトの初期化においては「ロケール識別子」も「初期化オプション」も指定できる情報は同じです。(現実問題としてたくさんの Unicode 拡張をロケール識別子に含めることで可読性が悪くならないかは留意すべきだと思いますが)。
+従って Intl.Locale オブジェクトの初期化においては「ロケール識別子」も「初期化オプション」も指定できる情報は同じです。(現実問題としてたくさんの Unicode 拡張をロケール識別子に含めることで可読性が悪くならないかは留意すべきですが)。
 
 ## Intl.Locale のプロパティ・メソッド
 
@@ -163,32 +158,38 @@ console.log(jpLocale.hourCycle); // "h12"
 
 初期化時のオプションで指定しなかった物については `numeric` を覗き `undefined` として保存されています。(`numeric` は default 値が `false`)
 
-これら初期化時にオプションとして存在した 9 つのプロパティに加え Intl.Locale オブジェクトは　`baseName`　というプロパティを持っています。これは初期化オプションにおける `language`、`script`、`region` を `"-"` で繋いだ文字列を保持するプロパティです。
+これら初期化時にオプションとして存在した 9 つのプロパティに加え Intl.Locale オブジェクトは　`baseName`　というプロパティを持っています。これは初期化オプションにおける `language`、`script`、`region` またはロケール識別子の場合変化系サブタグまでを `"-"` で繋いだ文字列を保持するプロパティです。
 
-<!-- 本当は+変異型まで？ -->
-
-また Intl.Locale オブジェクトは上記の 10 個のプロパティ以外に、３つのメソッドも持ちます。
+また Intl.Locale オブジェクトは 10 個のプロパティ以外に、３つのメソッドも持ちます。
 
 - `toString()`
 - `maximize()`
 - `minimize()`
 
-`toString()` メソッドは Intl.Locale オブジェクト内に含まれた情報を全て含むようなロケール識別子を返すメソッドです。`language`, `script`,`region` などの情報はもちろんそれ以外に指定したオプションも Unicode 拡張を使ってロケール識別子内に盛り込まれます。
+`toString()` メソッドは Intl.Locale オブジェクト内に含まれた情報を全て含むようなロケール識別子を返すメソッドです。`language`, `script`,`region` などの情報はもちろんそれ以外に指定したオプションも Unicode 拡張を使って全てロケール識別子内に盛り込まれます。
 
 ```ts
 const jpLocale = new Intl.Locale("ja", { region: "JP", hourCycle: "h12" });
 console.log(jpLOcale.toString()); // ja-JP-u-hc-h12
 ```
 
-`maximize()` メソッドは。
+`maximize()` メソッドは元々の Intl.Locale オブジェクトから、可能な限り `language`, `script`,`region` を補完した Intl.Locale オブジェクトを返します。ロケール識別子で例えると `"en"` を補完したら `"en-Latn-US"` になります。
 
-`minimize()`メソッドは。
+```ts
+const english = new Intl.Locale("en");
+console.log(english.maximize().baseName); // "en-Latn-US"
+```
 
-## 利用例
+`minimize()` メソッドは `maximize()` メソッドの逆で、`maximize()` メソッドで補完できるような `script`,`region` の情報を可能な限り削除した Intl.Locale オブジェクトを返します。ただし、規定のロケールから保管できないようなものは削除されません。
 
-<!-- 長すぎたら削る -->
+```ts
+const english = new Intl.Locale("en-Latn-US");
+console.log(english.minimize().baseName); // "en" (Latn-USは補完できる)
+const hant = new Intl.Locale("zh-Hant-TW");
+console.log(hant.minimize().baseName); // "zh-TW" (TWでHantは補完できるが、zhだけでは補完できない)
+```
 
-### Intl.Locale オブジェクトを共有する
+## Intl.Locale オブジェクトを共有するメリット
 
 アプリケーション内で利用する Intl.Locale オブジェクトを共有し、Intl の各コンストラクタプロパティで利用することは次のような利点があります。
 
@@ -199,24 +200,50 @@ Intl.Locale オブジェクトを共有すると、毎度ロケール識別子�
 
 さらに `calendar`, `hourCycle` などの特定の機能の挙動を変えるオプションは、あらかじめ指定しておくことで各 Intl 機能のデフォルトオプションのように振舞います。これは Intl 全体のデフォルト値とは違う挙動をアプリケーション全体で統一したい時に有用だと言えます。もちろん上で説明した通り、これらのオプションは個別に上書きが可能です。
 
-### Locale 情報からロジックを分岐する
+さらにこれらの Intl.Locale オブジェクトは `toString()` メソッドや `minimize()`,`maximize()` メソッドで簡単にロケール識別子へとシリアライズ可能です。これによりサーバーとの通信などでロケール情報を送る時にも便利です。
 
 ## Intl Locale Info proposal
 
-このような Intl.Locale オブジェクトに対して、「現状のプロパティ以上の情報を取得するメソッドを追加しよう」という提案が、Intl Locale Info proposal です。2024/12 現在は Stage3 の提案で、すでにでは利用可能です。(APIが変更になる可能性があるので利用には注意が必要)。
+このような Intl.Locale オブジェクトに対して、「現状のプロパティ以上の情報を取得するメソッドを追加しよう」という提案が、Intl Locale Info proposal です。より具体的には Intl.Locale オブジェクトを作成する際に指定したような情報について、各ロケールで利用可能なものをリストアップする API を提供します。
 
-### 提案されている Locale Info とユースケース
+https://github.com/tc39/proposal-intl-locale-info
 
-具体的に提案されているメソッドは以下のnつです。
+2024/12 現在は Stage3 の提案で、すでに Chrome と Safari では利用可能です。(API が変更になる可能性があるので利用には注意が必要です)。
 
-- getA()
+### 提案されている Locale Info の getter
+
+具体的に提案されているメソッドは以下の 7 つです。
+
+- `getCalendars()`
+  - そのロケールで使えるカレンダーの一覧を返す
+  - 例: ロケール識別子が `ja-JP` なら  `['gregory', 'japanese']`
+- `getCollations()`
+  - そのロケールで使える文字列の並べ替えのパターンを返す
+  - 例: ロケール識別子が `ja-JP` なら  ` 'emoji', 'eor', 'unihan']` (`'unihan'` は漢字の部首の画数順で並ぶ)
+- `getHourCycles()`
+  - そのロケールで使える時刻表示の一覧を返す
+  - 例: ロケール識別子が `ja-JP` なら  `['h23']`
+- `getTimeZones()`
+  - そのロケールで使えるタイムゾーンの一覧を返す
+  - 例: ロケール識別子が `ja-JP` なら  `[Asia/Tokyo]`
+- `getWeekInfo()`
+  - そのロケールにおける曜日の法則
+    - `firstDay`(週の最初の曜日), `weekend`(週末の曜日), `minimalDays`(月または年の第 1 週に最低限必要な日数)を返す
+  - 例: ロケール識別子が `ja-JP` なら  `{"firstDay": 7,"weekend": [6,7],"minimalDays": 1}`
+- `getNumberingSystems()`
+  - そのロケールで使える命数法の一覧を返す
+  - 例: ロケール識別子が `ja-JP` なら  `['h23']`
+- `getTextInfo()`
+  - そのロケールにおける文字の方向を `ltr` (left-to-right) か `rtl` (right-to-left)で返す
+  - 例: ロケール識別子が `ja-JP` なら  `{direction: 'ltr'}`
+
+これによりより細かいレベルでのロケールに応じた処理が実現できるようになります。
 
 ## まとめと次回予告
 
-今回は Intl.Locale オブジェクトと Intl Locale Info proposal について解説しました。次回 4 日目ではロケールネゴシエーションと Intl.LocaleMatcher Proposal について解説します。
+今回は Intl.Locale オブジェクトについてその生成方法と、プロパティ・メソッドなどについて解説しました。またこのような Intl.Locale オブジェクトをより便利にするための提案、 Intl Locale Info proposal についても解説しました。次回 [4 日目]()では「ロケールネゴシエーション」と Intl.LocaleMatcher Proposal について解説します。
 
 ## 参考文献
 
-- [Unicode Locale Data Markup Language (LDML)](https://unicode.org/reports/tr35/#unicode-locale-data-markup-language-ldml)
-- [Unicode Locale Data Markup Language (LDML)
-  Part 5: Collation](https://www.unicode.org/reports/tr35/tr35-collation.html#unicode-technical-standard-35)
+- Intl Locale Info proposal
+  - https://github.com/tc39/proposal-intl-locale-info
