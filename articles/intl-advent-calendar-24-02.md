@@ -3,7 +3,7 @@ title: "ロケール識別子(BCP47)とUnicode拡張について(#2)"
 emoji: "🏷️"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 2 日目の記事です。
@@ -14,13 +14,13 @@ published: false
 
 [1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは必ず第 1 引数にロケール識別子か Intl.Locale オブジェクト（またはそれらの配列）を受け取ります。この記事では、その中でも一般的に使われる「ロケール識別子」について解説します。（Intl.Locale オブジェクトについては、3 日目と 4 日目の記事で詳しく解説します。）
 
-2 日目にして Intl 本体とは直接関係がないように見えるかもしれませんが、Intl のロケール指定やオプション指定の挙動を詳しく理解するためには、このロケール識別子の仕様についても理解しておく必要があります。
+2 日目にして Intl 本体の話ではないのですが、Intl のロケール指定やオプション指定の挙動を詳しく理解するためには、このロケール識別子の仕様についても理解しておく必要があります。
 
 ### ロケール識別子の仕様 : BCP47
 
 ロケール識別子は「言語タグ」とも呼ばれる、ロケールを識別するための文字列です。具体的には `"ja-JP"` や `"en-US"` といったよく目にする文字列がこれに該当します。
 
-このロケール識別子の仕様は、IETF という標準化団体が策定する 2 つの仕様、[RFC 5646](https://www.rfc-editor.org/rfc/rfc5646.html) と [RFC 4647](https://www.rfc-editor.org/rfc/rfc4647.html) で定義されています。この 2 つの仕様を合わせて **[BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt)**[^1]と呼びます。（BCP は Best Current Practice の略で、IETF が発行する RFC の種類の 1 つです）。このように IETF が標準化していることから、IETF 言語タグとも呼ばれます。
+このロケール識別子の仕様は、IETF という標準化団体が策定する 2 つの仕様、[RFC 5646](https://www.rfc-editor.org/rfc/rfc5646.html) と [RFC 4647](https://www.rfc-editor.org/rfc/rfc4647.html) で定義されています。この 2 つの仕様を合わせて [**BCP47**](https://www.rfc-editor.org/rfc/bcp/bcp47.txt)と呼びます。（BCP は Best Current Practice の略で、IETF が発行する RFC の種類の 1 つです）。このように IETF が標準化していることから、IETF 言語タグとも呼ばれます。
 
 ### BCP47 の基本 : サブタグ
 
