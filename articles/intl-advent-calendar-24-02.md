@@ -20,7 +20,7 @@ published: true
 
 ロケール識別子は「言語タグ」とも呼ばれる、ロケールを識別するための文字列です。具体的には `"ja-JP"` や `"en-US"` といったよく目にする文字列がこれに該当します。
 
-このロケール識別子の仕様は、IETF という標準化団体が策定する 2 つの仕様、[RFC 5646](https://www.rfc-editor.org/rfc/rfc5646.html) と [RFC 4647](https://www.rfc-editor.org/rfc/rfc4647.html) で定義されています。この 2 つの仕様を合わせて **[BCP47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt)**と呼びます。（BCP は Best Current Practice の略で、IETF が発行する RFC の種類の 1 つです）。このように IETF が標準化していることから、IETF 言語タグとも呼ばれます。
+このロケール識別子の仕様は、IETF という標準化団体が策定する 2 つの仕様、[RFC 5646](https://www.rfc-editor.org/rfc/rfc5646.html) と [RFC 4647](https://www.rfc-editor.org/rfc/rfc4647.html) で定義されています。この 2 つの仕様を合わせて [**BCP47**](https://www.rfc-editor.org/rfc/bcp/bcp47.txt)と呼びます。（BCP は Best Current Practice の略で、IETF が発行する RFC の種類の 1 つです）。このように IETF が標準化していることから、IETF 言語タグとも呼ばれます。
 
 ### BCP47 の基本 : サブタグ
 
