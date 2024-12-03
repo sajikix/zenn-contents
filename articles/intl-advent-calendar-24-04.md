@@ -1,6 +1,6 @@
 ---
 title: "ロケールネゴシエーションとIntl.LocaleMatcher Proposal(#4)"
-emoji: ""
+emoji: "🤝"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false
@@ -13,12 +13,12 @@ publication_name: "cybozu_frontend"
 
 ## ロケールネゴシエーションとは何か
 
-[1 日目の記事]()で解説した通り、 Intl のコンストラクタプロパティは Intl.Locale を除いて皆以下のような引数もらうのでした。
+[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、 Intl のコンストラクタプロパティは Intl.Locale を除いて皆以下のような引数もらうのでした。
 
 1. ロケール識別子 or Intl.Locale オブジェクト、あるいはそれらの配列
 2. 初期化する際のオプション
 
-第 1 引数に指定可能なロケール識別子と Intl.Locale オブジェクトについてはそれぞれ[2 日目の記事]()と[3 日目の記事]()で解説した通りです。
+第 1 引数に指定可能なロケール識別子と Intl.Locale オブジェクトについてはそれぞれ[2 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)と[3 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)で解説した通りです。
 
 一方で今までの記事では以下のような場合の細かい挙動については触れてきませんでした。
 
@@ -66,7 +66,7 @@ https://www.rfc-editor.org/rfc/rfc4647.html#section-3.4
 
 ただし、RFC 4647 に定義されていない Intl 独自の仕様として「ロケール識別子の Unicode 拡張は一度取り除いて "lookup" アルゴリズムで利用可能なアルゴリズムを探し、見つかったロケールに取り除いた Unicode 拡張部分を戻す」という仕様があります。
 
-<!-- 図 -->
+![extendsとoverrideによる依存](/images/intlAdventCalendar24_04/localeMatch.png)
 
 #### "best fit" の挙動
 
@@ -103,12 +103,45 @@ Intl.Locale 以外の Intl のコンストラクタプロパティは第 1 引�
 
 ## Intl.LocaleMatcher Proposal
 
-### モチベーション
+このようにロケールネゴシエーションの挙動には "lookup" と "best fit" の２種類があるものの、"best fit" はブラウザの実装依存ですし、何よりユーザーこのロケールネゴシエーションに介入する方法がありません。このような背景から、ユーザー側で優先するロケールや利用可能なロケールのリストを指定する方法を提供しようとするのが、現在 Stage1 の Intl.LocaleMatcher Proposal です。
+
+https://github.com/tc39/proposal-intl-localematcher
+
+### 考えられているユースケース
+
+ユーザー側で優先するロケールを指定できることで、以下のようなユースケースを満たすことができるとしています。
+
+- 特定言語の翻訳しかないアプリケーションでなるべくユーザーのロケールにあった言語を選択したり、フォールバック言語を指定したりできる。
+- ロケール識別子における x 拡張を利用して独自の挙動を実装できる。
+  - 同じ言語でもフォーマルなものと多言語話者にわかりやすい簡易な表現のものを切り替えられるようにするなどができる
+- JS エンジン実装側や Polyfill でサポートするロケールが少なくても効率的で柔軟なロケールネゴシエーションを実装できる。
 
 ### 提案されている API
 
+具体的には以下のようなインターフェースを持つ `Intl.LocaleMatcher.match` メソッドが提案されています。
+
+```
+Intl.LocaleMatcher.match(
+    requestedLocales: string[],
+    availableLocales: string[],
+    defaultLocale: string,
+    options?: {algorithm: 'lookup' | 'best fit'}
+): string
+```
+
+引数はそれぞれユーザーが指定したロケールのリスト、利用可能なロケールのリスト、デフォルトのロケール、ロケールネゴシエーションの方法を指定できます。これらの情報から、 `Intl.LocaleMatcher.match`　メソッドでは利用可能なロケールとユーザーが指定したロケールリストを比べ、一番マッチするロケール(マッチしない場合デフォルトのロケール)を返します。例えば以下のように指定すると `'fr'` が返ります。
+
+```ts
+Intl.LocaleMatcher.match(["fr-XX", "en"], ["fr", "en"], "en"); // 'fr'
+```
+
 ## まとめと次回予告
 
-今回はについて解説しました。次回 5 日目ではについて解説します。
+今回は Intl がロケールを判別する際に行う「ロケールネゴシエーション」についてその挙動を解説しました。また、この「ロケールネゴシエーション」の挙動をよりカスタマイズするための Intl.LocaleMatcher Proposal という提案も紹介しました。次回 [5 日目]()では Intl における 2 つの組み込みメソッド、`getCanonicalLocales()` と `supportedValuesOf()` について解説します。
 
 ## 参考文献
+
+- Intl.LocaleMatcher Proposal
+  - https://github.com/tc39/proposal-intl-localematcher
+- RFC 4647: Matching of Language Tags / 3.4. Lookup Algorithm
+  - https://www.rfc-editor.org/rfc/rfc4647.html#section-3.4
