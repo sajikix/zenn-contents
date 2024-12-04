@@ -240,7 +240,7 @@ https://github.com/tc39/proposal-intl-locale-info
 
 ## まとめと次回予告
 
-今回は Intl.Locale オブジェクトについて、その生成方法とプロパティ・メソッドなどについて解説しました。また、このような Intl.Locale オブジェクトをより便利にするための提案、Intl Locale Info プロポーザルについても解説しました。次回 [4 日目]()では「ロケールネゴシエーション」と Intl.LocaleMatcher プロポーザルについて解説します。
+今回は Intl.Locale オブジェクトについて、その生成方法とプロパティ・メソッドなどについて解説しました。また、このような Intl.Locale オブジェクトをより便利にするための提案、Intl Locale Info プロポーザルについても解説しました。次回 [4 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-04)では「ロケールネゴシエーション」と Intl.LocaleMatcher プロポーザルについて解説します。
 
 ## 参考文献
 

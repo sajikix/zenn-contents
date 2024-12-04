@@ -1,17 +1,17 @@
 ---
-title: " Intlにおける 2つの組み込みメソッド(#5)"
-emoji: ""
+title: "Intlにおける 2つの組み込みメソッド(#5)"
+emoji: "🔧"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false
 publication_name: "cybozu_frontend"
 ---
 
-この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 3 日目の記事です。
+この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 5 日目の記事です。
 
 今回は Intl における 2 つの組み込みメソッドについて解説します。
 
-Intl には getCanonicalLocales() と supportedValuesOf() という 2 つの組み込みメソッドが存在します。これらはともに Intl でサポートする値やロケールの正規化なとを返す補助的な役割を持ったメソッドたちです。
+Intl には `getCanonicalLocales()` と `supportedValuesOf()` という 2 つの組み込みメソッドが存在します。これらはともに Intl でサポートする値やロケールの正規化なとを返す補助的な役割を持ったメソッドたちです。
 
 ## getCanonicalLocales()
 
@@ -66,4 +66,4 @@ try {
 
 ## まとめと次回予告
 
-今回は Intl にある２つの組み込みメソッドについてその概要と注意点ユースケースなどについて解説しました。次回 6 日目では Intl を支える LDML と CLDR について解説します。
+今回は Intl にある２つの組み込みメソッドについてその概要と注意点ユースケースなどについて解説しました。次回 [6 日目]()では Intl を支える LDML と CLDR について解説します。
