@@ -1,6 +1,6 @@
 ---
 title: "Intlにおける 2つの組み込みメソッド(#5)"
-emoji: ""
+emoji: "🔧"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false

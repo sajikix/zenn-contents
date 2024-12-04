@@ -140,7 +140,7 @@ const formatter = new Intl.DateTimeFormat("ja-JP", { calendar: "japanese" });
 
 ロケール識別子自体は ECMAScript とは別に、IETF の BCP47 という仕様群によって定義されています。BCP47 については [4 日目の記事]()で詳しく解説しますが、ここでは言語や地域を表す決まった文字列と考えてください。
 
-もう 1 つの Intl.Locale オブジェクトは、Intl が用意している「ロケール情報をより簡単に操作するため」のオブジェクトです。表せる情報の範囲ではロケール識別子で問題ありませんが、ロケール識別子が持つ情報を解析・操作しやすいインターフェースを提供しています。この Intl.Locale オブジェクトについては、[2 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)と [3 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)の記事で解説します。また、配列の場合の挙動についても [4 日目の記事]()で触れます。
+もう 1 つの Intl.Locale オブジェクトは、Intl が用意している「ロケール情報をより簡単に操作するため」のオブジェクトです。表せる情報の範囲ではロケール識別子で問題ありませんが、ロケール識別子が持つ情報を解析・操作しやすいインターフェースを提供しています。この Intl.Locale オブジェクトについては、[2 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)と [3 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)の記事で解説します。また、配列の場合の挙動についても [4 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-04)で触れます。
 
 #### 2. 初期化時のオプション
 

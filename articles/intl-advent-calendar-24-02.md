@@ -12,7 +12,7 @@ published: true
 
 ## ロケール識別子について
 
-[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは必ず第 1 引数にロケール識別子か Intl.Locale オブジェクト（またはそれらの配列）を受け取ります。この記事では、その中でも一般的に使われる「ロケール識別子」について解説します。（Intl.Locale オブジェクトについては、[3 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)と 4 日目の記事で詳しく解説します。）
+[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは必ず第 1 引数にロケール識別子か Intl.Locale オブジェクト（またはそれらの配列）を受け取ります。この記事では、その中でも一般的に使われる「ロケール識別子」について解説します。（Intl.Locale オブジェクトについては、[3 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)と [4 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-04)で詳しく解説します。）
 
 2 日目にして Intl 本体の話ではないのですが、Intl のロケール指定やオプション指定の挙動を詳しく理解するためには、このロケール識別子の仕様についても理解しておく必要があります。
 
