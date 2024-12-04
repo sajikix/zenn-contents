@@ -13,14 +13,14 @@ publication_name: "cybozu_frontend"
 
 ## ロケールネゴシエーションとは何か
 
-[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは Intl.Locale を除いて以下のような引数を受け取ります。
+[1 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-01)で解説した通り、Intl のコンストラクタプロパティは Intl.Locale を除いて、以下のような引数を受け取ります。
 
 1. ロケール識別子または Intl.Locale オブジェクト、あるいはそれらの配列
 2. 初期化する際のオプション
 
 第 1 引数に指定可能なロケール識別子と Intl.Locale オブジェクトについては、それぞれ[2 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-02)と[3 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-03)で解説しました。
 
-一方で、今までの記事では以下のような場合の細かい挙動については触れてきませんでした。
+一方で、今までの記事では以下のような場合の細かい挙動について触れてきませんでした。
 
 - `undefined` は許容されるのか
 - 不正なロケール識別子がきた場合どうなるのか
@@ -36,9 +36,9 @@ publication_name: "cybozu_frontend"
 2. ロケール識別子または Intl.Locale オブジェクト
 3. 2 のリスト
 
-このうち 1 の場合、利用者側の既定のロケールが使用されます。一方 2 の場合、与えられたロケール識別子または Intl.Locale オブジェクトで指定したロケールが必ずしもランタイム上で利用できるとは限りませんし、単に指定をミスしている可能性もあります。そうなると「ユーザーが指定した値に最もマッチしそうで利用可能なロケールを探す」という処理が必要になります。
+このうち 1 の場合、利用者側の既定のロケールが使用されます。一方 2 の場合、与えられたロケール識別子または Intl.Locale オブジェクトで指定したロケールが必ずしもランタイム上で利用できるとは限りませんし、単に不正な値を指定している可能性もあります。そうなると「ユーザーが指定した値に最もマッチしそうで利用可能なロケールを探す」という処理が必要になります。
 
-このように指定されたロケールの情報から、最もマッチしそうで利用可能なロケールを探す処理を「ロケールネゴシエーション」と呼びます。
+このように指定されたロケールの情報から、最もマッチしそうで利用可能なロケールを探す処理を「**ロケールネゴシエーション**」と呼びます。
 
 ### ロケールネゴシエーションの指定
 
@@ -50,7 +50,7 @@ new Intl.Segmenter("en-US", { localeMatcher: "lookup" });
 
 #### "lookup" の挙動
 
-"lookup" が指定された場合の挙動は、ECMA-402 における[LookupMatchingLocaleByPrefix](https://tc39.es/ecma402/#sec-lookupmatchinglocalebyprefix)という抽象操作で定義されています。また、LookupMatchingLocaleByPrefix の挙動は RFC 4647（BCP47 の片方の仕様）のセクション 3.4 で定義されたアルゴリズムに従っています。
+"lookup" が指定された場合の挙動は、ECMA-402 における[LookupMatchingLocaleByPrefix](https://tc39.es/ecma402/#sec-lookupmatchinglocalebyprefix)という抽象操作(Abstract Operations)[^1]で定義されています。また、LookupMatchingLocaleByPrefix の挙動は RFC 4647（BCP47 の片方の仕様）のセクション 3.4 で定義されたアルゴリズムに従っています。
 
 https://www.rfc-editor.org/rfc/rfc4647.html#section-3.4
 
@@ -68,15 +68,17 @@ https://www.rfc-editor.org/rfc/rfc4647.html#section-3.4
 
 ![extendsとoverrideによる依存](/images/intlAdventCalendar24_04/localeMatch.png)
 
+この仕様により、Unicode 拡張で指定したオプションなどがロケールネゴシエーションの過程で削除されることを防ぎます。
+
 #### "best fit" の挙動
 
-"lookup" の挙動が ECMA-402 仕様書並びに RFC 4647 で定義されているのに対し、"best fit" は各ランタイムの実装に依存した操作になると ECMA-402 仕様書で定義されています。ただし、どのようなアルゴリズムでも良いというわけではなく、具体的には以下のように書かれています。
+"lookup" の挙動が ECMA-402 仕様書並びに RFC 4647 で定義されているのに対し、"best fit" の挙動は各ランタイムの実装に依存すると ECMA-402 仕様書で定義されています。ただし、どのようなアルゴリズムでも良いというわけではなく、具体的には以下のように書かれています。
 
 > It determines the best element of availableLocales for satisfying requestedLocales, ignoring Unicode locale extension sequences. The algorithm is implementation dependent, but should produce results that a typical user of the requested locales would consider at least as good as those produced by the LookupMatchingLocaleByPrefix algorithm.
 
 おおまかに意訳すると、「方法は指定しないけど "lookup" と同じかそれ以上に賢い方法を提供してね」ということになります。
 
-ちなみに、Safari（JavaScriptCore）と Firefox（SpiderMonkey）は、暫定的に"lookup" のときと同じ挙動をするようです。これらのロケールネゴシエーションについてと実際のランタイムでの挙動については、以下の記事が詳しいのでぜひ読んでみてください。
+ちなみに、Safari（JavaScriptCore）と Firefox（SpiderMonkey）は、`"best fit"` を指定しても暫定的に `"lookup"` のときと同じ挙動をするようです。これらのロケールネゴシエーションについてと実際のランタイムでの挙動については、以下の記事が詳しいのでぜひ読んでみてください。
 
 https://sosukesuzuki.dev/posts/intl-locale-matching/
 
@@ -87,9 +89,14 @@ https://sosukesuzuki.dev/posts/intl-locale-matching/
 Intl で無効なロケールが指定された場合の挙動は、指定したロケールの形によって 2 パターンあります。
 
 1. 与えられた文字列が明らかにロケール識別子の構文と異なる
-2. ロケール識別子の構文は持っているが利用可能なロケールに存在しないもの
+2. ロケール識別子の構文は保っているが利用可能なロケールに存在しないもの
 
-1 の場合、すべての Intl のコンストラクタプロパティはエラーを投げます。具体的には ECMA-402 で定義された [IsStructurallyValidLanguageTag という抽象操作](https://tc39.es/ecma402/#sec-isstructurallyvalidlanguagetag)でチェックされます。1 に当てはまるような例として `hoge-FUGA` のようなものがあります。
+1 の場合、すべての Intl のコンストラクタプロパティは `RangeError` を投げます。具体的には ECMA-402 で定義された [IsStructurallyValidLanguageTag という抽象操作](https://tc39.es/ecma402/#sec-isstructurallyvalidlanguagetag)でチェックされます。1 に当てはまるような例として `hoge-FUGA` のようなものがあります。
+
+```ts
+new Intl.Locale("hoge-FUGA"); // ❌
+// RangeError: Incorrect locale information provided
+```
 
 2 の場合、構造的な不備はないのでエラーが投げられることはありません。しかし、実際にマッチするロケールが見つからないので、最終的にはシステム既定のロケールが利用されることになります。2 に当てはまるような例として `xx-XX` のようなものがあります。（構文上の間違いはないが、実際には `xx` で表される言語タグはない）
 
@@ -99,7 +106,12 @@ Intl.Locale 以外の Intl のコンストラクタプロパティは第 1 引�
 
 この場合は「配列の先頭からロケール解決をしていって最初に解決できたものにマッチする」という挙動をします。したがって `["en-US", "ja"]` のように指定すれば `"en-US"` にマッチします。`["xx-XX", "ja"]` のように「ロケール識別子の構文は持っているがロケール解決できないもの」が混じっている場合は、配列の次のロケールを解決しようとするので、`"ja"` にマッチします。
 
-注意点として、明らかにロケール識別子の構文と異なるロケール識別子が与えられた場合、配列の位置に関係なくエラーが投げられます。したがって、`["en-US", "ja", "hoge-FUGA"]` のように指定しても `"en-US"` にはマッチしません。
+注意点として、明らかにロケール識別子の構文と異なるロケール識別子が与えられた場合、配列の位置に関係なく `RangeError` が投げられます。したがって、例えば `["en-US", "ja", "hoge-FUGA"]` のように指定したとしても `"en-US"` にはマッチしません。
+
+```ts
+new Intl.Locale(["en-US", "ja", "hoge-FUGA"]); // ❌
+// RangeError: Incorrect locale information provided
+```
 
 ## Intl.LocaleMatcher プロポーザル
 
@@ -145,3 +157,5 @@ Intl.LocaleMatcher.match(["fr-XX", "en"], ["fr", "en"], "en"); // 'fr'
   - https://github.com/tc39/proposal-intl-localematcher
 - RFC 4647: Matching of Language Tags / 3.4. Lookup Algorithm
   - https://www.rfc-editor.org/rfc/rfc4647.html#section-3.4
+
+[^1]: ECMAScript 仕様書内で使われる記法で、同じ仕様上の操作を何度も書かなくていいように切り出された操作のこと。あくまで仕様を書きやすくするために定義されているもので JavaScript コードに関数として公開されないため「抽象」操作と呼ばれる。
