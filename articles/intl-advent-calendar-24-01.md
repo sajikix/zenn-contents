@@ -113,7 +113,7 @@ Intl は多くの機能をコンストラクタプロパティとして提供し
 - `Intl.getCanonicalLocales()`
 - `Intl.supportedValuesOf()`
 
-これらのメソッドについては、[5 日目の記事]()で詳しく解説します。
+これらのメソッドについては、[5 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-05)で詳しく解説します。
 
 ### コンストラクタの基本的なインターフェース
 

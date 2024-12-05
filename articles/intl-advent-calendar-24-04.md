@@ -148,7 +148,7 @@ Intl.LocaleMatcher.match(["fr-XX", "en"], ["fr", "en"], "en"); // 'fr'
 
 ## まとめと次回予告
 
-今回は Intl がロケールを判別する際に行う「ロケールネゴシエーション」についてその挙動を解説しました。また、この「ロケールネゴシエーション」の挙動をよりカスタマイズするための Intl.LocaleMatcher プロポーザルという提案も紹介しました。次回 [5 日目]()では Intl における 2 つの組み込みメソッド、`getCanonicalLocales()` と `supportedValuesOf()` について解説します。
+今回は Intl がロケールを判別する際に行う「ロケールネゴシエーション」についてその挙動を解説しました。また、この「ロケールネゴシエーション」の挙動をよりカスタマイズするための Intl.LocaleMatcher プロポーザルという提案も紹介しました。次回 [5 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-05)では Intl における 2 つの組み込みメソッド、`getCanonicalLocales()` と `supportedValuesOf()` について解説します。
 
 ## 参考文献
 
