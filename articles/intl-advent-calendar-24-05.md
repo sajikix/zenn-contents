@@ -27,6 +27,14 @@ console.log(Intl.getCanonicalLocales(["EN-US", "Fr"])); // ["en-US", "fr"]
 
 ここでいう正規化はあくまで大文字小文字の正規化だけなので、ロケール識別子の構文から外れた文字列は不正な値として `RangeError` がスローされます。
 
+```ts
+try {
+  Intl.getCanonicalLocales("hoge-FUGA");
+} catch (err) {
+  // RangeError: Incorrect locale information provided
+}
+```
+
 この正規化処理と同じ処理は、Intl のコンストラクタプロパティにロケール識別子を渡した際にも自動的に行われています。そのため、「コンストラクタプロパティに渡す前には `getCanonicalLocales()` で正規化したほうが良い」ということはありません。
 
 一方で、バックエンドとやり取りする際や入力値からステートにロケール識別子を保存する際などは、正規化手段として役に立ちます。特にサーバーなど JavaScript 以外のランタイムにデータを渡す場合、正規化していないロケールで不具合が発生する可能性もあるため、なるべく正規化しておくと安心です。
@@ -55,7 +63,7 @@ console.log(Intl.supportedValuesOf("calendar"));
 try {
   Intl.supportedValuesOf("invalid");
 } catch (err) {
-  //Error: RangeError: invalid key: "invalid"
+  // RangeError: invalid key: "invalid"
 }
 ```
 
