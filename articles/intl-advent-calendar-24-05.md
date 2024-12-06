@@ -3,7 +3,7 @@ title: "Intlにおける 2つの組み込みメソッド(#5)"
 emoji: "🔧"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 5 日目の記事です。
@@ -26,6 +26,14 @@ console.log(Intl.getCanonicalLocales(["EN-US", "Fr"])); // ["en-US", "fr"]
 ```
 
 ここでいう正規化はあくまで大文字小文字の正規化だけなので、ロケール識別子の構文から外れた文字列は不正な値として `RangeError` がスローされます。
+
+```ts
+try {
+  Intl.getCanonicalLocales("hoge-FUGA");
+} catch (err) {
+  // RangeError: Incorrect locale information provided
+}
+```
 
 この正規化処理と同じ処理は、Intl のコンストラクタプロパティにロケール識別子を渡した際にも自動的に行われています。そのため、「コンストラクタプロパティに渡す前には `getCanonicalLocales()` で正規化したほうが良い」ということはありません。
 
@@ -55,7 +63,7 @@ console.log(Intl.supportedValuesOf("calendar"));
 try {
   Intl.supportedValuesOf("invalid");
 } catch (err) {
-  //Error: RangeError: invalid key: "invalid"
+  // RangeError: invalid key: "invalid"
 }
 ```
 
