@@ -3,7 +3,7 @@ title: "Intl.DateTimeFormat の基本(#7)"
 emoji: "🕰️"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 7 日目の記事です。
@@ -12,18 +12,24 @@ published: false
 
 ## 日時のフォーマット : Intl.DateTimeFormat
 
-Intl.DateTimeFormat はロケールに応じた日付と時刻のフォーマットをサポートする機能です。
+Intl.DateTimeFormat はロケールに応じた日付と時刻の書式化をサポートする機能です。
 
 ### 基本的な使い方
 
 Intl.DateTimeFormat も他の Intl のコンストラクタプロパティ同様、第１引数にロケール(ロケール識別子 or Intl.Locale オブジェクト)を第２引数にフォーマットのオプションを渡して初期化することで、Intl.DateTimeFormat インスタンスを生成できます。
 
 ```ts
-const enFormatter = new Intl.DateTimeFormat("en-US", {});
-const jaFormatter = new Intl.DateTimeFormat("ja-JP", {});
+const enFormatter = new Intl.DateTimeFormat("en-US", {
+  // オプションを指定
+});
+const jaFormatter = new Intl.DateTimeFormat("ja-JP", {
+  // オプションを指定
+});
 ```
 
-生成した Intl.DateTimeFormat インスタンスには format のようなメソッドが生えており(詳しくは記述)、このメソッドに Date オブジェクトを渡すことでフォーマットされた文字列を取得できます。
+書式化の挙動(年月日をどう表示するか、時刻の表示は 24 時制か...など)は全て**インスタンスを生成するタイミングのオプションで指定**します。生成したインスタンスは初期化時のロケール・オプションに従って日時をフォーマットするだけで、ロケールやオプションの上書きもできないので注意が必要です。これらの書式化オプションについては次回[8 日目の記事]()で詳しく解説します。
+
+生成した Intl.DateTimeFormat インスタンスには `format()` のようなメソッドが生えており(詳しくは記述)、このメソッドに Date オブジェクトを渡すことでフォーマットされた文字列を取得できます。
 
 ```ts
 const date = new Date(2024, 12, 7);
@@ -198,4 +204,4 @@ Intl.DateTimeFormat.supportedLocalesOf(locales1, options1); // ["id-u-co-pinyin"
 
 ## まとめと次回予告
 
-この記事では Intl.DateTimeFormat について基本的な使い方と、インスタンスの持つメソッド、Intl.DateTimeFormat 自体が持つ静的メソッドなどについて実際のコード例などを交えながら解説しました。次回 [7 日目]()は Intl.DateTimeFormat の初期化オプションについて細かく見ていきます。
+この記事では Intl.DateTimeFormat について基本的な使い方と、インスタンスの持つメソッド、Intl.DateTimeFormat 自体が持つ静的メソッドなどについて実際のコード例などを交えながら解説しました。次回 [8 日目]()は Intl.DateTimeFormat の初期化オプションについて細かく見ていきます。
