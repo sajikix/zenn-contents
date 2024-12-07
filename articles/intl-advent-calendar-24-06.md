@@ -165,7 +165,7 @@ https://zenn.dev/cybozu_frontend/articles/explore-intl-segmenter
 
 ## まとめと次回予告
 
-この記事では Unicode コンソーシアムの提供する仕様やデータライブラリ群によって Intl の仕様や実装が支えられていることを解説しました。次回 [7 日目]()からは Intl.DateTimeFormat について解説していきます。
+この記事では Unicode コンソーシアムの提供する仕様やデータライブラリ群によって Intl の仕様や実装が支えられていることを解説しました。次回 [7 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-07)からは Intl.DateTimeFormat について解説していきます。
 
 ## 参考文献
 
