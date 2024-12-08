@@ -106,7 +106,7 @@ const afterParts = beforeParts.map((part) => {
 const result = afterParts.map((part) => part.value).join(""); // 24/12/7
 ```
 
-続く[8 日目の記事]()で解説する通り、Int.DateTimeFormat には多くの書式化オプションがあり、基本的なユースケースはそちらでカバーできることが多いですが、どうしても書式化の結果をカスタマイズしたい場合は `formatToParts()` を使ってカスタマイズすると良いでしょう。
+続く[8 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-08)で解説する通り、Int.DateTimeFormat には多くの書式化オプションがあり、基本的なユースケースはそちらでカバーできることが多いですが、どうしても書式化の結果をカスタマイズしたい場合は `formatToParts()` を使ってカスタマイズすると良いでしょう。
 
 ### `formatRange()` と `formatRangeToParts()`
 
@@ -204,4 +204,4 @@ Intl.DateTimeFormat.supportedLocalesOf(locales1, options1); // ["id-u-co-pinyin"
 
 ## まとめと次回予告
 
-この記事では Intl.DateTimeFormat について基本的な使い方と、インスタンスの持つメソッド、Intl.DateTimeFormat 自体が持つ静的メソッドなどについて実際のコード例などを交えながら解説しました。次回 [8 日目]()は Intl.DateTimeFormat の初期化オプションについて細かく見ていきます。
+この記事では Intl.DateTimeFormat について基本的な使い方と、インスタンスの持つメソッド、Intl.DateTimeFormat 自体が持つ静的メソッドなどについて実際のコード例などを交えながら解説しました。次回 [8 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-08)は Intl.DateTimeFormat の初期化オプションについて細かく見ていきます。
