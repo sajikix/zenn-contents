@@ -95,28 +95,23 @@ Temporal.Calendar でサポートするカレンダーは少なくとも Intl.Da
 
 > (前略) The returned List is sorted according to lexicographic code unit order, and contains unique calendar types in canonical form (12.1) identifying the calendars for which the implementation provides the functionality of Intl.DateTimeFormat objects, including their aliases (e.g., either both or neither of "islamicc" and "islamic-civil").
 
-### Intl に対する変更
+### Intl 側に対する変更
 
 また逆に一部の Intl の仕様に関しても Temporal が入ることで変更されることが予定されています。
 
 - Intl.DateTimeFormat が Date オブジェクト以外にも Temporal に対応するように
 - Temporal はナノ秒まで扱えるため、Intl.DateTimeFormat の定義でもナノ秒まで扱えるように
+  - 結果的に内部的にも BigInt で扱うようになっている
 - 一部の ECMA402 にあった仕様が ECMA262 側に移行される
   - Temporal 側で参照する都合上だと考えられる
-- Temporal の toLocaleString()メソッド用に Timezone の上書き挙動が追加される
+- Temporal の `toLocaleString()` メソッド用に Timezone の上書き挙動が追加される
 
 ## まとめ
+
+この記事では新しい日時操作 API Temporal Proposal と Intl、特に Intl.DataTimeFormat との関連を解説しました。Temporal が標準仕様として採用されるまではもう少し時間がかかりそうですが、Intl と相互に影響を与える仕様になる予定なので今のうちに両方の関係を押さえておくと双方の仕様を読みやすくなります。次回 [10 日目]()は世界の多様な暦に対してより柔軟にサポートするための２つの proposal について解説します。
 
 ## 参考文献
 
 - Temporal Proposal
   - spec : https://tc39.es/proposal-temporal
   - github : https://github.com/tc39/proposal-temporal
-
-```
-
-```
-
-```
-
-```

@@ -250,7 +250,7 @@ switch (locale) {
 
 ## まとめ
 
-この記事では Intl.DateTimeFormat の主要なオプションとその挙動について解説しました。また合わせて実際に使う際の私見も紹介しました。次回 [9 日目]()は Intl.DateTimeFormat と日時に関する Proposal :Temporal との関連について解説します。
+この記事では Intl.DateTimeFormat の主要なオプションとその挙動について解説しました。また合わせて実際に使う際の私見も紹介しました。次回 [9 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-09)は Intl.DateTimeFormat と日時に関する Proposal :Temporal との関連について解説します。
 
 ## 参考文献
 
