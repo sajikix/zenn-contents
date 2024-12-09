@@ -3,7 +3,7 @@ title: "Intl.DateTimeFormatとTemporalの関連(#9)"
 emoji: "⏰"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 9 日目の記事です。
@@ -108,7 +108,9 @@ Temporal.Calendar でサポートするカレンダーは少なくとも Intl.Da
 
 ## まとめ
 
-この記事では新しい日時操作 API Temporal Proposal と Intl、特に Intl.DataTimeFormat との関連を解説しました。Temporal が標準仕様として採用されるまではもう少し時間がかかりそうですが、Intl と相互に影響を与える仕様になる予定なので今のうちに両方の関係を押さえておくと双方の仕様を読みやすくなります。次回 [10 日目]()は世界の多様な暦に対してより柔軟にサポートするための２つの proposal について解説します。
+この記事では新しい日時操作 API Temporal Proposal と Intl、特に Intl.DataTimeFormat との関連を解説しました。Temporal が標準仕様として採用されるまではもう少し時間がかかりそうですが、Intl と相互に影響を与える仕様になる予定なので今のうちに両方の関係を押さえておくと双方の仕様を読みやすくなります。
+
+次回 [10 日目]()は世界の多様な暦に対してより柔軟にサポートするための２つの proposal について解説します。
 
 ## 参考文献
 
