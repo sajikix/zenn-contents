@@ -3,11 +3,10 @@ title: "世界の暦に対応するための Proposal(#10)"
 emoji: ""
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
-publication_name: "cybozu_frontend"
+published: true
 ---
 
-この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 9 日目の記事です。
+この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 10 日目の記事です。
 
 今回は世界中の暦をより柔軟にサポートするために提案されている、eraDisplay option for Intl.DateTimeFormat と Intl Era and MonthCode Proposal について解説します。
 
@@ -128,7 +127,7 @@ const date = Temporal.PlainDate.from({
 
 https://tc39.es/proposal-intl-era-monthcode/#table-eras
 
-合わせて CLDR にも上記の `era` のコードや alias について修正を出しています。(CLDR については[6 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-06)を参照)
+合わせて CLDR にも上記の `era` のコードや alias について修正を出しています。(CLDR については[6 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-06)を参照のこと)
 
 https://github.com/unicode-org/cldr/pull/2665/files
 
