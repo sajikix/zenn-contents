@@ -96,26 +96,32 @@ jaFormatter.resolvedOptions();
 `style` は `"long"`,`"short"`,`"narrow"` のいづれかの値をとります。デフォルトは"long"ですが、`"short"` や `"narrow"` を指定することでより短い表記に変更できます。
 
 ```ts
-
+new Intl.RelativeTimeFormat("en-US", { style: "long" }).format(-1, "month"); // "1 month ago"
+new Intl.RelativeTimeFormat("en-US", { style: "short" }).format(-1, "month"); // "1 mo. ago"
+new Intl.RelativeTimeFormat("en-US", { style: "narrow" }).format(-1, "month"); // "1mo ago"
 ```
 
 `numeric` は小さい数字でも「1 日前」「2 日後」のように必ず数字で表示するかどうかのオプションです。デフォルトは `"always"` なので必ず数値で表示しますが、`"auto"` を指定すると「昨日」「明日」のような自然な表記になります。
 
 ```ts
-
+new Intl.RelativeTimeFormat("ja-JP", { numeric: "always" }).format(-1, "day"); // "１日前"
+new Intl.RelativeTimeFormat("ja-JP", { numeric: "auto" }).format(-1, "day"); // "昨日"
 ```
 
 `numberingSystem` は他の Intl に関するオプション同様利用する命数法のオプションです。
 
 ```ts
-
+new Intl.RelativeTimeFormat("en-US", { numberingSystem: "arab" }).format(
+  -7,
+  "day"
+); //'٧ days ago'
 ```
 
 ### ユースケース
 
 Intl.RelativeTimeFormat が便利なユースケースとして「通知や履歴の UI でどれくらいのものかを表示する」と言うものがあります。
 
-例えばあるアプリケーションで通知時刻を表示するのに以下のようなルールがあるとします。(これはよく見るパターンだと思います。)
+例えばあるアプリケーションで通知時刻を表示するのに以下のようなルールがあるとします。(そしてこれはよく見るパターンだと思います。)
 
 - 当日なら時刻を表示
 - 前日 ~ 1 週間前までは「n 日前」と表示する
@@ -126,7 +132,24 @@ Intl.RelativeTimeFormat が便利なユースケースとして「通知や履�
 これを愚直に表示しようとするとかなり大変ですが、Intl.RelativeTimeFormat を使うと楽になります。
 
 ```ts
-
+const formatNotifiedAt = (date: Date): string => {
+  const elapsedDay = Math.floor(
+    (new Date().getTime() - date.getTime()) / 1000 / 60 / 60 / 24
+  );
+  const formatter = new Intl.RelativeTimeFormat("ja-JP", { numeric: "auto" });
+  if (elapsedDay < 1) {
+    return new Intl.DateTimeFormat("ja-JP", { timeStyle: "short" }).format(
+      date
+    );
+  }
+  if (elapsedDay < 30) {
+    return formatter.format(-Math.floor(elapsedDay), "day");
+  }
+  if (elapsedDay < 365) {
+    return formatter.format(-Math.floor(elapsedDay), "month");
+  }
+  return formatter.format(-Math.floor(elapsedDay / 365), "year");
+};
 ```
 
 個人的には Intl.DateTimeFormat より影がうすい印象のある Intl.RelativeTimeFormat もこのように柔軟な相対日時の表記に便利な API なのでぜひ使いこなして欲しいと思います。
