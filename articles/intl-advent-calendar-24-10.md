@@ -146,7 +146,7 @@ https://tc39.es/proposal-intl-era-monthcode/#sec-temporal-isvalidmonthecodeforca
 
 今回は世界中の暦をサポートするために提案されている Proposal について解説しました。これらの Proposal が実装されることで、Temporal と Intl.DateTimeFormat がより柔軟に世界中の暦をサポートできるようになることが期待されます。
 
-次回[11 日目]()では、相対的な日時の書式化をサポートする Intl.RelativeTimeFormat について解説します。
+次回[11 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-11)では、相対的な日時の書式化をサポートする Intl.RelativeTimeFormat について解説します。
 
 ## 参考文献
 
