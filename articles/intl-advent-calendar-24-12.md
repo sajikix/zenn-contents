@@ -176,7 +176,7 @@ Intl.DurationFormat が Stage4 に上がったことで、Intl における日�
 
 この記事では Intl.DurationFormat について基本的な使い方とオプションなどについて解説しました。この記事で [7 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-7)から続いていた日時系の機能並びに関連仕様の話は一旦終わりになります。
 
-次回 [13 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-13)からは数値の書式化機能である、Intl.NumberFormat について解説します。
+次回 [13 日目]()からは数値の書式化機能である、Intl.NumberFormat について解説します。
 
 ## 参考文献
 
