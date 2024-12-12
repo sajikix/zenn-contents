@@ -171,4 +171,4 @@ const formatNotifiedAt = (date: Date): string => {
 
 ## まとめと次回予告
 
-この記事では Intl.RelativeTimeFormat について基本的な使い方とオプション、ユースケースなどについて解説しました。次回 [12 日目]()は期間の書式化をおこなう提案である Intl.DurationFormat Proposal について細かく見ていきます。
+この記事では Intl.RelativeTimeFormat について基本的な使い方とオプション、ユースケースなどについて解説しました。次回 [12 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-12)は期間の書式化をおこなう提案である Intl.DurationFormat Proposal について細かく見ていきます。
