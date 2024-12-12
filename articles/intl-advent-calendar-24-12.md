@@ -30,8 +30,8 @@ const jaFormatter = new Intl.DurationFormat("ja-JP", {
 生成した Intl.DurationFormat インスタンスには Intl.DateTimeFormat や Intl.RelativeTimeFormat 同様 `format()` / `formatToParts()` のようなメソッドが生えており(詳しくは記述)、このメソッドに `{hours: 1, minutes: 46, seconds: 40}` のようなデータを渡すことで書式化できます。
 
 ```ts
-const duration = { hours: 1, minutes: 46, seconds: 40 };
-new Intl.DurationFormat("ja-JP").format(duration); // 1 時間 46 分 40 秒
+const duration = { minutes: 4, seconds: 33 };
+new Intl.DurationFormat("ja-JP").format(duration); // '4 分 33 秒'
 ```
 
 ### オプション
@@ -41,11 +41,11 @@ new Intl.DurationFormat("ja-JP").format(duration); // 1 時間 46 分 40 秒
 まず、全体の長さを指定するオプションとして `style` オプションがあります。`style` は `"long"`, `"short"`, `"narrow"`,`"digital"` のいずれかの値を指定でき、それぞれのスタイルに応じた長さで書式化されます。デフォルト値は `"short"` です。
 
 ```ts
-const duration = { hours: 1, minutes: 50 };
-new Intl.DurationFormat("en-US", { style: "long" }).format(duration); // 1 hour and 50 minutes
-new Intl.DurationFormat("en-US", { style: "short" }).format(duration); // 1 hr, 50 min
-new Intl.DurationFormat("en-US", { style: "narrow" }).format(duration); // 1h 50m
-new Intl.DurationFormat("en-US", { style: "digital" }).format(duration); // 1:50:00
+const duration = { minutes: 4, seconds: 33 };
+new Intl.DurationFormat("en-US", { style: "long" }).format(duration); // 4 minutes, 33 seconds
+new Intl.DurationFormat("en-US", { style: "short" }).format(duration); // 4 min, 33 sec
+new Intl.DurationFormat("en-US", { style: "narrow" }).format(duration); // 1m 33s
+new Intl.DurationFormat("en-US", { style: "digital" }).format(duration); // 0:04:33
 ```
 
 また各単位ごとに表示を制御するオプションも用意されています。具体的にはそれぞれ以下のような値を取ります。
@@ -64,9 +64,9 @@ new Intl.DurationFormat("en-US", { style: "digital" }).format(duration); // 1:50
 さらに各単位ごとに値が 0 の場合に表示するかどうかを制御するオプションも用意されています。`years` であれば `yearsDisplay`、`hours` であれば `hoursDisplay` といった具合です。これらのオプションは `"auto"` / `"always"` のどちらかの値を取り、`"auto"` の場合は値が 0 の場合は表示されません。
 
 ```ts
-const duration = { hours: 1, minutes: 50 };
-new Intl.DurationFormat("en-US", { secondsDisplay: "auto" }).format(duration); // '1 hr, 50 min'
-new Intl.DurationFormat("en-US", { secondsDisplay: "always" }).format(duration); // '1 hr, 50 min, 0 sec'
+const duration = { minutes: 4, seconds: 33 };
+new Intl.DurationFormat("en-US", { hoursDisplay: "auto" }).format(duration); // '4 min, 33 sec'
+new Intl.DurationFormat("en-US", { hoursDisplay: "always" }).format(duration); // '0 hr, 4 min, 33 sec'
 ```
 
 加えて、`style:"digital'` で表示した際、少数になる秒数の部分を最大何桁まで表示するかを制御する `fractionalDigits` オプションも用意されています。 オプションは 0 から 9 までの値を取り、デフォルトでは可能な限り精度を保つようになっています。
@@ -101,7 +101,7 @@ Intl.DurationFormat インスタンスにも Intl.RelativeTimeFormat 同様以�
 `format()` メソッドは引数に Duration を表すオブジェクトを渡すことで初期化時に設定したオプションから書式化した文字列を返すメソッドです。
 
 ```ts
-new Intl.DurationFormat("en-US").format({ hours: 1, minutes: 50, seconds: 12 });
+new Intl.DurationFormat("en-US").format({ minutes: 4, seconds: 33 });
 ```
 
 Duration を表すオブジェクトは、`years`, `months`, `weeks`, `days`, `hours`, `minutes`, `seconds`, `milliseconds`, `microseconds`, `nanoseconds` のプロパティを持つオブジェクトで、それぞれのプロパティに数字を指定することで期間を表します。引数は省略できないので指定しなかった場合は `RangeError` を throw します。
@@ -117,17 +117,17 @@ Date オブジェクトは最小単位として milliseconds までしか扱え�
 
 ```ts
 new Intl.DurationFormat("en-US").formatToParts({
-  hours: 1,
-  minutes: 50,
+  minutes: 4,
+  seconds: 33,
 });
 // [
-//     { "type": "integer", "value": "1", "unit": "hour"},
-//     { "type": "literal", "value": " ", "unit": "hour"},
-//     { "type": "unit", "value": "hr", "unit": "hour"},
-//     { "type": "literal", "value": ", "},
-//     { "type": "integer", "value": "50", "unit": "minute"},
-//     { "type": "literal", "value": " ", "unit": "minute"},
-//     { "type": "unit", "value": "min", "unit": "minute"}
+//     { "type": "integer", "value": "4", "unit": "minute" },
+//     { "type": "literal", "value": " ", "unit": "minute" },
+//     { "type": "unit", "value": "min", "unit": "minute" },
+//     { "type": "literal", "value": ", " },
+//     { "type": "integer", "value": "33", "unit": "second" },
+//     { "type": "literal", "value": " ", "unit": "second" },
+//     { "type": "unit", "value": "sec", "unit": "second" }
 // ]
 ```
 
