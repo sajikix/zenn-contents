@@ -3,7 +3,7 @@ title: "Intl.NumberFormat の基本(#13)"
 emoji: "🧮"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 13 日目の記事です。
@@ -30,7 +30,7 @@ const jaFormatter = new Intl.NumberFormat("ja-JP", {
 jaFormatter.format(12345.6); // '12,345.6'
 ```
 
-## NumberFormat 　インスタンスの持つメソッド
+## NumberFormat インスタンスの持つメソッド
 
 Intl.NumberFormat インスタンスには以下の 5 つのメソッドがあります。
 
@@ -52,6 +52,10 @@ new Intl.NumberFormat("ja-JP").format(12345.6); // '12,345.6'
 
 ちなみに引数を指定しない場合は `NaN` を渡したのと同じ挙動になります。
 
+```ts
+new Intl.NumberFormat("ja-JP").format(); // 'NaN'
+```
+
 `formatToParts()` は返り値を書式化された文字列ではなく文字列を構成する部品の配列で返します。配列の各要素は `{type: string, value: string}` というオブジェクトで、`type` には要素の種別、`value` には実際の文字列が入ります。
 
 ```ts
@@ -65,7 +69,7 @@ new Intl.NumberFormat("ja-JP").formatToParts(12345.6);
 // ];
 ```
 
-この `type` ですが以下のように書式化のパターンやオプションによって様々な値が入ります。
+この `type` ですが以下のように書式化のパターンやオプションによって様々なパターンが存在します。
 
 - `integer` : 整数部分
 - `fraction` : 小数部分
@@ -88,23 +92,23 @@ new Intl.NumberFormat("ja-JP").formatToParts(12345.6);
 
 ### `formatRange()` と `formatRangeToParts()`
 
-`formatRange()` メソッドは `"200 ~ 300` のような数値の範囲を表す文字列を返すメソッドです。そのため、引数には startRange と endRange の 2 つの Number または BigInt を受け取ります。
+`formatRange()` メソッドは `"200 ~ 300` のような数値の範囲を表す文字列を返すメソッドです。そのため、引数には startRange と endRange の 2 つの Number / BigInt を受け取ります。
 
 ```ts
 new Intl.NumberFormat("ja-JP").formatRange(200, 300); // '200~300'
 ```
 
-`formatRange()` メソッドは基本的に書式化された数値を `"-"` や `"～"` でつないだ文字列を返しますが、オプションで指定された桁数にフォーマットして startRange と endRange が一緒になる場合は `"~3"` のように表示されます。
+`formatRange()` メソッドは基本的に書式化された数値を `"-"` や `"～"` でつないだ文字列を返しますが、オプションで指定された通りに丸めた結果 startRange と endRange が一緒になる場合は `"~[number]"` のように表示されます。
 
 ```ts
-// 2.9も3.1も少数部分を丸めるオプションの場合書式化して3になるため、"〜3" と表示される
+// 2.9も3.1もオプション通り少数部分を丸めると3になるため、"〜3" と表示される
 new Intl.NumberFormat("ja-JP", { maximumFractionDigits: 0 }).formatRange(
   2.9,
   3.1
 ); // '〜3'
 ```
 
-また通貨や単位などに関しても startRange と endRange 両方につけるかまとめるかなどを調整してくれます。
+また通貨や単位などに関しては startRange と endRange 両方につけるかまとめるかなどをロケールや通貨に応じて調整してくれます。
 
 ```ts
 new Intl.NumberFormat("es-ES", {
@@ -163,11 +167,11 @@ new Intl.NumberFormat("ja-JP", {
 
 ## ユースケース
 
-Intl.NumberFormat が特に便利なユースケースをいくつか紹介します。
+Intl.NumberFormat が特に便利なユースケースについて自分が思いつくものをいくつか紹介します。(もちろんこれ以外にも様々なユースケースがあると思います。)
 
 ### 1. 数値の丸め
 
-細かいオプションは次の[14 日目の記事]()で紹介しますが、Intl.NumberFormat は数値の丸めや桁数の調整をするオプションが豊富にあります。四捨五入・切り捨て・切り上げなども選べるので、今まで「100 倍して `Math.round` してまた 100 で割って」のような方法で行っていた数値の丸め処理はほとんどこの Intl.NumberFormat に任せることができます。
+細かいオプションは次の[14 日目の記事]()で紹介しますが、Intl.NumberFormat は数値の丸めや桁数の調整をするオプションが豊富にあります。四捨五入・切り捨て・切り上げなども選べるので、今まで「10 倍して `Math.round` してまた 10 で割って」のような方法で行っていた数値の丸め処理はほとんどこの Intl.NumberFormat に任せることができます。
 
 ```ts
 const formatter1 = new Intl.NumberFormat("en", {
@@ -179,7 +183,7 @@ formatter1.format(123.456); // → 123.46
 formatter1.format(123.4); // → 123.40
 ```
 
-またこれらのオプションでは整数部分や少数部分の桁数だけでなく全体の桁数を指定したりと言った細かい調整もできます。
+またこれらのオプションでは整数部分や少数部分の桁数だけでなく、全体の桁数を指定したりと言った細かい調整もできます。
 
 ```ts
 const formatter2 = new Intl.NumberFormat("en", {
@@ -230,7 +234,7 @@ enFormatter.format(12345); // → $12,345.00
 jaFormatter.format(12345); // → ￥12,345
 ```
 
-また単位の表示などでは複数形の扱いや単位の表記の違いなども考慮してくれるので、これらの表示を手動で行うよりも遥かに便利です。
+また単位の表示などでは複数形の扱いや単位の表記の違いなども考慮してくれるので、これらの出しわけ自ら行うよりも遥かに簡単です。
 
 ```ts
 const formatter = new Intl.NumberFormat("en", {
@@ -245,4 +249,6 @@ formatter.format(2); // → 2 feet
 
 ## まとめと次回予告
 
-この記事では Intl.NumberFormat について基本的な使い方とオプション、ユースケースなどについて解説しました。次回 [14 日目]()は Intl.NumberFormat で指定できる書式化のオプションについて詳しく解説します。
+この記事では Intl.NumberFormat について基本的な使い方とオプション、ユースケースなどについて解説しました。この記事を見て実際のプロダクトで使うイメージが持てたら嬉しいです。
+
+次回 [14 日目]()は Intl.NumberFormat で指定できる書式化のオプションについて詳しく解説します。
