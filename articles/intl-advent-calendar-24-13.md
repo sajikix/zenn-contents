@@ -171,7 +171,7 @@ Intl.NumberFormat が特に便利なユースケースについて自分が思�
 
 ### 1. 数値の丸め
 
-細かいオプションは次の[14 日目の記事]()で紹介しますが、Intl.NumberFormat は数値の丸めや桁数の調整をするオプションが豊富にあります。四捨五入・切り捨て・切り上げなども選べるので、今まで「10 倍して `Math.round` してまた 10 で割って」のような方法で行っていた数値の丸め処理はほとんどこの Intl.NumberFormat に任せることができます。
+細かいオプションは次の[14 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-14)で紹介しますが、Intl.NumberFormat は数値の丸めや桁数の調整をするオプションが豊富にあります。四捨五入・切り捨て・切り上げなども選べるので、今まで「10 倍して `Math.round` してまた 10 で割って」のような方法で行っていた数値の丸め処理はほとんどこの Intl.NumberFormat に任せることができます。
 
 ```ts
 const formatter1 = new Intl.NumberFormat("en", {
@@ -251,4 +251,4 @@ formatter.format(2); // → 2 feet
 
 この記事では Intl.NumberFormat について基本的な使い方とオプション、ユースケースなどについて解説しました。この記事を見て実際のプロダクトで使うイメージが持てたら嬉しいです。
 
-次回 [14 日目]()は Intl.NumberFormat で指定できる書式化のオプションについて詳しく解説します。
+次回 [14 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-14)は Intl.NumberFormat で指定できる書式化のオプションについて詳しく解説します。

@@ -1,6 +1,6 @@
 ---
 title: "Intl.NumberFormatの主要オプションを抑える(#14)"
-emoji: ""
+emoji: "🔢"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false
@@ -12,11 +12,11 @@ published: false
 
 ## Intl.NumberFormat の主要なオプション
 
-Intl.NumberFormat のオプションには様々なものがあり、これらを組み合わせる事で様々なフォーマットを実現できます。他の Intl のコンストラクタと比べてもオプションが多岐にわたるので、ここではなるべくオプションを細かく分類しながら解説していきます。
+Intl.NumberFormat のオプションには様々なものがあり、これらを組み合わせる事で柔軟なフォーマットを実現できます。他の Intl のコンストラクタと比べてもオプションが多岐にわたるので、ここではなるべくオプションを分類しながら解説していきます。
 
 ### NumberFormat の `style` オプションと分類
 
-Intl.NumberFormat の大切なオプションとして、書式化する数値の形を決める `style` オプションがあります。この `style` には以下の 4 種類があり、デフォルトは `"decimal"` です。
+Intl.NumberFormat の大切なオプションとして、書式化する数値の形を決める `style` オプションがあります。この `style` オプションには以下の 4 種類があり、デフォルトは `"decimal"` です。
 
 - `"decimal"` : 通常の数値
 - `"percent"` : パーセント付きの数値
@@ -49,6 +49,7 @@ unitFormatter.format(12345.6); // '12,345.6 km/h'
 - 数値部分に関するオプション
 - 通貨に関するオプション
 - 単位に関するオプション
+- (その他のオプション)
 
 それぞれのオプションについて基本的なものを見ていきましょう。
 
@@ -192,11 +193,23 @@ new Intl.NumberFormat("ja-JP", {
 - `"narrow"` : 省略形で表示するが、さらに狭い形で表示する
   - 例: `123km/h`
 
+### その他のオプション
+
+他の Intl.DateTimeFormat や Intl.RelativeTimeFormat などと同様に、Intl.NumberFormat にも命数法を指定する `numberingSystem` オプションがあります。またこれも他の機能同様 `numberingSystem` オプションは Unicode 拡張でも指定できます。(`"u-nu-[value]"` の形式。)
+
+通常は `latn` が指定されますが、他の言語や地域に合わせて `arab` (アラブ数字)などを指定できます。
+
+```ts
+new Intl.NumberFormat("en-US", {
+  numberingSystem: "arab",
+}).format(12345.6); // '١٢٬٣٤٥٫٦'
+```
+
 ## まとめと次回予告
 
-この記事では Intl.NumberFormat の主要なオプションについて詳しく解説しました。ただ、今回の記事で触れなかったオプションとして以下のものがあります。
+この記事では Intl.NumberFormat の主要なオプションについて詳しく解説しました。一方で今回の記事では以下のようオプションについて触れていません。
 
 - 表示桁数や値の丸めに関するオプション
 - 桁区切り記号のグルーピングに関するオプションや、数値の正負の表現に関するオプション
 
-これらは ECMAScript 2023 で入った比較的新しいオプション群です。次回[15 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-15)では、これらのオプションについて詳しく解説します。合わせて現在提案されている「通貨表記を拡張する Proposal」についても紹介します。
+これらは ECMAScript 2023(ES2023) で入った比較的新しいオプション群です。次回[15 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-15)では、これらのオプションについて詳しく解説します。合わせて現在提案されている「通貨表記を拡張する Proposal」についても紹介します。
