@@ -95,7 +95,7 @@ new Intl.NumberFormat("en", {
 
 - `currency` : 通貨コード
 - `currencyDisplay` : 通貨の表示方法
-- `currencySign` : 通貨記号の表示方法
+- `currencySign` : 通貨におけるマイナスの表現方法
 
 #### `currency` オプション
 
@@ -116,10 +116,10 @@ new Intl.NumberFormat("en-US", {
 
 `currencyDisplay` オプションは通貨の表示方法を指定するオプションで、以下の 4 つの値のいずれかを指定できます。
 
-- `"symbol"` : 通貨記号を表示する
-  - 例: `$`, `¥`, `€`
-- `"narrowSymbol"` : 同じ通過記号などの場合情報を足した狭い形にする
-  - 例: `US$` (`"$"` ではなく)
+- `"symbol"` : 通貨記号(+場合によって地域名など)を表示する
+  - 例: `$`, `US$` ,`¥`, `€`
+- `"narrowSymbol"` : どのロケールでも通貨記号だけ表示する
+  - 例: `$` (`"US$"` ではなく)
 - `"name"` : 通貨名を表示する
   - 例: `US dollar`, `Japanese yen` / `"米ドル"`, `"円"`
 - `"code"` : 通貨コードを表示する
