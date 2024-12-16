@@ -10,6 +10,14 @@ published: false
 
 今回はについて解説します。
 
-## Title
+## `Intl.Collator`
+
+### Intl.Collator の基本的な使い方
+
+### メソッド
+
+### オプション
+
+### ユースケース
 
 ## まとめと次回予告

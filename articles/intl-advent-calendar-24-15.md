@@ -214,13 +214,15 @@ formatter.format(123456); // → 123.50
 
 次に、現在 Intl.NumberFormat に提案されている新しい通貨表示に関するオプションの提案、Currency Display Choices Proposal について解説します。
 
+https://github.com/tc39/proposal-intl-currency-display-choices
+
 前回[14 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-14)で紹介した通り、通貨に関するオプションは `style` が `"currency"` の場合にのみ有効で以下の 3 つがありました。
 
 - `currency` : 通貨コード
 - `currencyDisplay` : 通貨の表示方法
 - `currencySign` : 通貨におけるマイナスの表現方法
 
-Currency Display Choices Proposal はこの `currencyDisplay` オプション(つまり通貨の表記方法)に対して、より細かい表示方法を指定できるようにする提案です。
+Currency Display Choices Proposal はこの `currencyDisplay` オプション(つまり通貨の表記方法)に対して、より細かい表示方法を指定できるようにする現在 Stage2 の提案です。
 
 ### 現状の `currencyDisplay` オプション挙動と問題
 
