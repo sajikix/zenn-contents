@@ -147,7 +147,7 @@ centimeters.toLocaleString("en-US"); // "5 feet and 6 inches"
 
 この記事では数値フォーマットの中でも単位のフォーマットに関して新しい機能を提供しようとする２つの提案、Smart Unit Preferences Proposal と Representing Measures Proposal について解説しました。
 
-次回[17 日目]()の記事では言語ごとに異なる複数形の扱いを分類できる `Intl.PluralRules` について解説します。
+次回[17 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-17)の記事では言語ごとに異なる複数形の扱いを分類できる `Intl.PluralRules` について解説します。
 
 ## 参考文献
 
