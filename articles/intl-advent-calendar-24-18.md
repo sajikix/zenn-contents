@@ -3,12 +3,12 @@ title: "Intl.ListFormat(#18)"
 emoji: "🧾"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 18 日目の記事です。
 
-今回はリストの表記をロケールに合わせて書式化してくれるについて解説します。
+今回はリストの表記をロケールに合わせて書式化してくれる Intl.ListFormat について解説します。
 
 ## `Intl.ListFormat`
 
@@ -39,7 +39,7 @@ const jaFormatter = new Intl.ListFormat("ja-JP", {
 enFormatter.format(["Train", "Bus", "Car"]); // "Train, Bus, and Car"
 ```
 
-### メソッド
+### `Intl.ListFormat` のメソッド
 
 Intl.ListFormat インスタンスには以下の 3 つのメソッドがあります。
 
@@ -79,7 +79,7 @@ new Intl.ListFormat("en-US").formatToParts(["Train", "Bus", "Car"]);
 // ];
 ```
 
-### オプション
+### `Intl.ListFormat` のオプション
 
 Intl.ListFormat の初期化で指定できるオプションは以下の２つです。(全コンストラクタプロパティ共通の `localeMatcher` を除く)。
 
@@ -132,9 +132,9 @@ new Intl.ListFormat("en-US", { style: "narrow" }).format([
 
 ### 簡単なユースケース
 
-Intl.ListFormat は特に要素数の確定していない要素を書式化する時に便利です。
+Intl.ListFormat は特に**要素数の確定していない要素**を文中で書式化する時にとても便利です。
 
-英語でのリスト書式化を自前で実装する場合以下のように要素の順番に応じた細かい処理が必要になります。
+例えば、英語で自然なリストの書式化を実装する場合、以下のように「要素の順番に応じた細かい処理」が必要になります。
 
 ```ts
 const formatEnList = (items: string[]) => {
@@ -152,7 +152,7 @@ const formatEnList = (items: string[]) => {
 };
 ```
 
-これらの処理をサポートする言語ごとに実装するのは大変ですが、Intl.ListFormat を使うことでロケールに合わせたリスト表記を簡単に実現できます。
+言語ごとにこのような書式化処理を実装するのは大変ですが、Intl.ListFormat を使うことでロケールに合わせたリスト表記を簡単に実現できます。
 
 ```ts
 const listFormatter = new Intl.ListFormat("en");
@@ -164,7 +164,11 @@ const message = `${listFormatter.format([
 // "Cash, credit card and various payment apps are available for payment."
 ```
 
-このメッセージ例で言えば、今後支払い方法が増減した場合でも、配列に要素を追加するだけで自然なメッセージを生成できます。
+上記のメッセージ例で言えば、今後支払い方法が増減した場合でも、配列に要素を追加するだけで自然なメッセージを生成できます。また要素が 1 つしかないようなエッジケースでも自然に書式化してくれるので自身で実装するよりも安心です。
+
+```ts
+new Intl.ListFormat("en").format(["Cash"]); // "Cash"
+```
 
 ## まとめと次回予告
 
