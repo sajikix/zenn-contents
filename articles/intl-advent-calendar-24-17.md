@@ -232,4 +232,4 @@ switch (enRules.select(count)) {
 
 この記事では `Intl.PluralRules` について前提となる知識や基本的な使い方、API について解説しました。今ままで複数形や序数の扱いで困っていた方は、ぜひ `Intl.PluralRules` を使ってみてください。
 
-次回[18 日目]()の記事ではリストの表記(`A,B and C` みたいなもの)をロケールに合わせて書式化してくれる　`IntlListFormat`　について解説します。
+次回[18 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-18)の記事ではリストの表記(`A,B and C` みたいなもの)をロケールに合わせて書式化してくれる　`IntlListFormat`　について解説します。
