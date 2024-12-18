@@ -25,10 +25,10 @@ Intl.ListFormat は、このようなリストの表記をロケールに合わ�
 他の Intl のコンストラクタプロパティ同様、第１引数にロケール(ロケール識別子 or Intl.Locale オブジェクト)を第２引数にフォーマットのオプションを渡して初期化することで、Intl.ListFormat インスタンスを生成できます。
 
 ```ts
-const enRules = new Intl.ListFormat("en-US", {
+const enFormatter = new Intl.ListFormat("en-US", {
   // オプションを指定
 });
-const jaRules = new Intl.ListFormat("ja-JP", {
+const jaFormatter = new Intl.ListFormat("ja-JP", {
   // オプションを指定
 });
 ```
@@ -36,12 +36,12 @@ const jaRules = new Intl.ListFormat("ja-JP", {
 生成した Intl.ListFormat インスタンスは `format()` / `formatToParts()` のようなメソッドが生えており(詳しくは記述)、このメソッドに配列などの反復可能オブジェクトを渡すことで、リスト表記をロケールに合わせて書式化してくれます。
 
 ```ts
-enRules.format(["Train", "Bus", "Car"]); // "Train, Bus, and Car"
+enFormatter.format(["Train", "Bus", "Car"]); // "Train, Bus, and Car"
 ```
 
 ### メソッド
 
-Intl.PluralRules インスタンスには以下の 3 つのメソッドがあります。
+Intl.ListFormat インスタンスには以下の 3 つのメソッドがあります。
 
 - `format()`
 - `formatToParts()`
