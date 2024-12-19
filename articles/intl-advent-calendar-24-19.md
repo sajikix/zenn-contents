@@ -14,7 +14,7 @@ published: false
 
 どのアプリケーションでも文字列の比較はよく使われる操作です。例えば、ユーザーが入力した文字列をソートする際や、検索する際には文字列の比較が必要になります。
 
-しかし、そもそも文字列の比較方法は一意でなく、ロケールによって異なることがあります。例えば、英語の場合だけをとっても以下のような方法が考えられます。
+しかし、そもそも文字列の比較方法は 1 つでなく、ロケールによって異なることがあります。例えば、英語の場合だけをとっても以下のような方法が考えられます。
 
 - 大文字・小文字を区別するかどうか。区別するならどちらが先になるのか。
 - 数字部分を数値として比較するか文字列として比較するか。
@@ -24,9 +24,9 @@ published: false
 
 ## `Intl.Collator`
 
-### Intl.Collator の基本的な使い方
-
 `Intl.Collator` はこのようなロケールに応じた文字列の比較をするための機能です。
+
+### Intl.Collator の基本的な使い方
 
 他の Intl のコンストラクタプロパティ同様、第１引数にロケール(ロケール識別子 or Intl.Locale オブジェクト)を第２引数にフォーマットのオプションを渡して初期化することで、Intl.Collator インスタンスを生成できます。
 
@@ -66,24 +66,26 @@ new Intl.Collator("en-US").compare("b", "a"); // 1
 
 このルールは Array.prototype.sort() などにおける比較関数と同じ挙動です。
 
-`compare()` メソッドの引数に文字列以外の値を指定したり、指定しなかったりする場合、それらの値は全て文字列に変換されてから比較されます。(例えば、`null` は `"null"` に変換される)
+`compare()` メソッドの引数に文字列以外の値を指定したり、何も値を指定しなかったりした場合、それらの値は全て文字列に変換されてから比較されます。(例えば、`null` は `"null"` に変換される)
 
 ```ts
 new Intl.Collator("en-US").compare(undefined, null); // 1
 // ↑ は以下と同じ意味になる
-new Intl.Collator("en-US").compare("undefined"), "null"));
+new Intl.Collator("en-US").compare("undefined", "null");
 ```
 
 ### `Intl.Collator` のオプション
 
 Intl.Collator の初期化で指定できるオプションは以下の 6 つです。(全コンストラクタプロパティ共通の `localeMatcher` を除く)。
 
-- `usage` :
-- `collation` :
+- `usage`
+- `collation`
 - `numeric`
 - `caseFirst`
 - `sensitivity`
 - `ignorePunctuation`
+
+それぞれのオプションについて詳しく見ていきましょう。
 
 #### `usage` オプション
 
