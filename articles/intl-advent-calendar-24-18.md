@@ -174,4 +174,4 @@ new Intl.ListFormat("en").format(["Cash"]); // "Cash"
 
 この記事ではリスト表記の書式化を行う `Intl.ListFormat` について基本的な使い方、API について解説しました。
 
-次回[19 日目]()は言語を考慮した文字列の比較を可能にする `Intl.Collator` について解説します。お楽しみに！
+次回[19 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-19)は言語を考慮した文字列の比較を可能にする `Intl.Collator` について解説します。お楽しみに！
