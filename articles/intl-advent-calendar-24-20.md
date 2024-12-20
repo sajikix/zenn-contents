@@ -1,6 +1,6 @@
 ---
 title: "Intl.Segmenter(#20)"
-emoji: "🔜"
+emoji: "🔪"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false
@@ -12,7 +12,7 @@ published: false
 
 ## `Intl.Segmenter`
 
-`Intl.Segmenter` は指定された粒度で文を分割するための API です。
+`Intl.Segmenter` はロケールを考慮しつつ、指定された粒度で文字列を分割するための API です。
 
 ### Intl.Segmenter の基本的な使い方
 
