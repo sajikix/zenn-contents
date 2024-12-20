@@ -183,7 +183,7 @@ fruits.toSorted(new Intl.Collator("en-US").compare);
 
 この記事では言語を考慮した文字列の比較を可能にする `Intl.Collator` について基本的な使い方、API について解説しました。
 
-次回[20 日目]()は単語や見た目の１文字、文単位で文字列を分割できる `Intl.Segmenter` について解説します。お楽しみに！
+次回[20 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-20)は単語や見た目の１文字、文単位で文字列を分割できる `Intl.Segmenter` について解説します。お楽しみに！
 
 ## 参考文献
 
