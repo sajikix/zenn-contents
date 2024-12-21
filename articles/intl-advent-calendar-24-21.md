@@ -92,7 +92,7 @@ https://unicode.org/reports/tr14/
 
 この記事では行単位での文字列分割をサポートする Intl.Segmenter v2 proposal についてそのモチベーションや提案されている API などを解説しました。
 
-次回[22 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-22)では言語、地域、文字体系の表示名の一貫した翻訳をサポートする Intl.DisplayNames について解説します。
+次回[22 日目]()では言語、地域、文字体系の表示名の一貫した翻訳をサポートする Intl.DisplayNames について解説します。
 
 ## 参考文献
 
