@@ -1,6 +1,6 @@
 ---
 title: "Intl.DisplayNames(#22)"
-emoji: "🔜"
+emoji: "📺"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
 published: false
@@ -241,6 +241,12 @@ console.log(currencyNames); // ['米ドル', '日本円', 'ユーロ']
 ```
 
 ## まとめと次回予告
+
+この記事では言語、地域、文字体系などの表示名の一貫した翻訳をサポートする Intl.DisplayNames についてその API やユースケースを解説しました。
+
+次回[23 日目]()では言語、地域、文字体系の表示名の一貫した翻訳をサポートする Intl.DisplayNames について解説します。
+
+## 参考文献
 
 - Unicode Language Identifier (LDML)
   - https://unicode.org/reports/tr35/#unicode-language-identifier
