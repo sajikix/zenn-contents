@@ -3,7 +3,7 @@ title: "Intl.Segmenter v2 Proposal(#21)"
 emoji: "↩️"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 21 日目の記事です。
@@ -14,18 +14,20 @@ published: false
 
 Intl.Segmenter は前回[20 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-20)で解説した通り、ロケールを考慮しつつ、指定された粒度で文字列を分割するための API です。Intl.Segmenter v2 proposal はこの Intl.Segmenter に新しいオプションを追加する Stage1 の提案です。
 
+https://github.com/tc39/proposal-intl-segmenter-v2
+
 ### モチベーション
 
 Intl.Segmenter v2 proposal では新しく文字列を分割する粒度として「行」をサポートしようとしています。
 
-適切な行での分割はテキストのレンダリングにおいて重要な要素であり、特に以下のような場所でニーズが高まっています。
+適切な行での分割はテキストのレンダリングにおいて重要な要素であり、特に以下のような場所でニーズがあります。
 
 - Canvas や SVG などの内部で Text をレンダリングする場合
 - CLI やコード埋め込みなどにおける適切なレンダリング : 例) github のソース diff 表示
 - HTML の文脈外のテキストをレンダリングする場合 : 例) PDF の生成
 - WebGL や WebXR でのテキストレンダリング
 
-このような処理に対して都度行分割のためのライブラリをバンドルすることは容量の観点からしても現実的ではありません。(実際多くのロケールをサポートしようとするとかなり容量は多くなってしまう。)
+このような処理に対して都度、行分割のためのライブラリをバンドルすることは容量の観点からしても現実的ではありません。(実際多くのロケールをサポートしようとするとかなりの容量になるようです。)
 
 そのため Intl.Segmenter の 1 機能(=JS の標準機能)として行分割をサポートすることが求められています。
 
@@ -37,7 +39,7 @@ Intl.Segmenter v2 proposal では新しく文字列を分割する粒度とし�
 const itr = new Intl.v8BreakIterator(["ja-jp"], { type: "line" });
 ```
 
-しかしこの機能は 2024 年 11 月に非推奨とすることが提案され、ゆくゆくは v8 からも削除されることが予定されています。
+さらに、この機能は 2024 年 11 月に非推奨とすることが提案され、ゆくゆくは Chromium 並びに v8 からも削除されることが予定されています。
 
 https://chromestatus.com/feature/4973414383878144
 
@@ -90,7 +92,7 @@ https://unicode.org/reports/tr14/
 
 この記事では行単位での文字列分割をサポートする Intl.Segmenter v2 proposal についてそのモチベーションや提案されている API などを解説しました。
 
-次回[22 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-22)では言語、地域、文字体系の表示名の一貫した翻訳をサポートする Intl.DisplayNames について解説します。
+次回[22 日目]()では言語、地域、文字体系の表示名の一貫した翻訳をサポートする Intl.DisplayNames について解説します。
 
 ## 参考文献
 
