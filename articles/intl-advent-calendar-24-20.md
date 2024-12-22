@@ -288,7 +288,7 @@ breakTokLines(
 
 この記事では言語を考慮した単語や見た目の１文字、文単位で文字列を分割できる `Intl.Segmenter` について解説しました。
 
-次回[21 日目]() では Intl.Segmenter に新しいオプションを追加する Intl.Segmenter v2 proposal について解説します。
+次回[21 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-21) では Intl.Segmenter に新しいオプションを追加する Intl.Segmenter v2 proposal について解説します。
 
 ## 参考文献
 
