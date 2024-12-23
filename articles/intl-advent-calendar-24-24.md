@@ -1,5 +1,5 @@
 ---
-title: "Intl.MessageFormat の記法をみてみよう(#24)"
+title: "MessageFormat v2 の記法をみてみよう(#24)"
 emoji: "🔜"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
