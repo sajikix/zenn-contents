@@ -36,6 +36,8 @@ Hello, {name}!
 
 ## ICU MessageFormat v2 の記法を知る
 
+では実際に ICU MessageFormat v2 の記法を見て行きましょう。
+
 ### ICU MessageFormat v2 における「Message」の分類
 
 ICU MessageFormat v2 には多くの記法が存在しますが、利用される記法やフォーマットの構造によっては大きく「Simple Message」と「Complex Message」の２つに分類されます。
@@ -250,4 +252,4 @@ https://github.com/unicode-org/message-format-wg/blob/main/spec/syntax.md
 ## まとめと次回予告
 
 今回は Intl.MessageFormat で利用される MessageFormat v2 のその記法について細かく紹介しました。
-次回[25 日目]はこの MessageFormat v2 の文言を Intl 側でより効率的に管理・フォーマットするための提案、`Intl.MessageFormat.parseResource()` について解説し、Intl.MessageFormat が標準化された時のメリットや懸念点についても考えていきます。
+次回[25 日目]()はこの MessageFormat v2 の文言を Intl 側でより効率的に管理・フォーマットするための提案、`Intl.MessageFormat.parseResource()` について解説し、Intl.MessageFormat が標準化された時のメリットや懸念点についても考えていきます。
