@@ -282,7 +282,7 @@ https://github.com/unicode-org/message-format-wg/tree/main/spec/data-model
 1. ICU MessageFormat v2 の構文
 2. 多くの文言プールをどう扱うか
 
-1 に関しては次の[24 日目の記事]()で、2 に関してはその次の[25 日目の記事]()でそれぞれ解説します。
+1 に関しては次の[24 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-24)で、2 に関してはその次の[25 日目の記事](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-25)でそれぞれ解説します。
 
 ## 参考文献
 
