@@ -252,4 +252,4 @@ https://github.com/unicode-org/message-format-wg/blob/main/spec/syntax.md
 ## まとめと次回予告
 
 今回は Intl.MessageFormat で利用される MessageFormat v2 のその記法について細かく紹介しました。
-次回[25 日目]()はこの MessageFormat v2 の文言を Intl 側でより効率的に管理・フォーマットするための提案、`Intl.MessageFormat.parseResource()` について解説し、Intl.MessageFormat が標準化された時のメリットや懸念点についても考えていきます。
+次回[25 日目](https://zenn.dev/sajikix/articles/intl-advent-calendar-24-25)はこの MessageFormat v2 の文言を Intl 側でより効率的に管理・フォーマットするための提案、`Intl.MessageFormat.parseResource()` について解説し、Intl.MessageFormat が標準化された時のメリットや懸念点についても考えていきます。
