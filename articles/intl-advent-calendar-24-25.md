@@ -1,9 +1,9 @@
 ---
 title: "parseResource() で便利になるIntl.MessageFormatとその未来(#25)"
-emoji: "🔜"
+emoji: "🔮"
 type: "tech"
 topics: ["Intl", "i18n", "frontend"]
-published: false
+published: true
 ---
 
 この記事は「[1 人 Intl Advent Calendar 2024](https://adventar.org/calendars/10555)」の 25 日目(最終日)の記事です。
