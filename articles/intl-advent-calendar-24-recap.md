@@ -1,5 +1,5 @@
 ---
-title: "1人Intl Advent Calendar を書きました"
+title: "1人Intl Advent Calendar を完走しました"
 emoji: "↩️"
 type: "idea"
 topics: ["Intl", "i18n", "frontend"]
@@ -29,7 +29,7 @@ https://speakerdeck.com/sajikix/intlnojin-madetokorekara
 
 https://speakerdeck.com/sajikix/the-future-of-frontend-i18n-intl-dot-messageformat
 
-このような中で、今年の年末近くになり仲間内で「1 人アドベントカレンダー書いてみたいなくない？」という話があがりました。個人的にもいつかは 1 人で書いてみたいという思いもあり、書くのであれば今まで調べていたことの総まとめとして `Intl` をテーマにしようと決めました。
+このような中で、今年の年末近くになり仲間内で「1 人アドベントカレンダー書いてみたくない？」という話があがりました。個人的にもいつかは 1 人で書いてみたいという思いもあり、書くのであれば今まで調べていたことの総まとめとして `Intl` をテーマにしようと決めました。
 
 ### 今回の Advent Calendar コンセプト
 
