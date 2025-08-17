@@ -16,7 +16,7 @@ published: false
 
 `Set` オブジェクトに対する理解を深めるだけでなく、JavaScript の仕様やランタイムの実装について疑問に思った時に調べるヒントとなれば幸いです。
 
-## `new Set()`
+## JavaScript における Set とは
 
 みなさんは JavaScript の `Set` オブジェクト、利用していますか？
 
@@ -63,7 +63,7 @@ MDN の該当ページには「値の等価性」という項目があり以下�
 
 :::message
 実際執筆者が最初に MDN の `Set` の記述を確認したタイミングでは日本語版が原文(英語版)に追従しておらず、等価性や性能についての記述がここまで明確ではありませんでした。
-現在(2023/04 時点)は執筆者が送った翻訳追従の PR をマージして頂き、英語版と同じ内容になっています。
+現在(2023/04 時点)は[執筆者が送った翻訳追従の PR](https://github.com/mdn/translated-content/pull/11875) をマージして頂き、英語版と同じ内容になっています。
 
 MDN の記述が少し古く感じたり、内容が少ないように感じたらぜひ英語版も参照してみてください。
 
@@ -76,15 +76,15 @@ MDN の記述が少し古く感じたり、内容が少ないように感じた�
 
 :::
 
-### EcmaScript の記述を読んでみる
+### ECMAScript の記述を読んでみる
 
-ご存知の通り JavaScript の仕様は [EcmaScript](https://tc39.es/ecma262/) という名前で公開されており、 2015 年以降は毎年更新されています。
+ご存知の通り JavaScript の仕様は [ECMAScript](https://tc39.es/ecma262/) という名前で公開されており、 2015 年以降は毎年更新されています。
 
 仕様書のサイトから直接検索してもいいのですが、非常に長いドキュメントなので目的の仕様に辿り着くまでが大変です。 MDN 経由の場合、大抵は「仕様書」というセクションがあり、ここに書かれているリンクからであれば直接該当箇所に飛ぶことができます。
 
 今回の `Set` オブジェクトに関しては https://tc39.es/ecma262/multipage/keyed-collections.html#sec-set-objects から記述が始まります。
 
-EcmaScript によると `Set` は以下のように定義されています。
+ECMAScript によると `Set` は以下のように定義されています。
 
 > Set objects are collections of ECMAScript language values. A distinct value may only occur once as an element of a Set's collection. Distinct values are discriminated using the SameValueZero comparison algorithm.
 
@@ -121,7 +121,7 @@ EcmaScript によると `Set` は以下のように定義されています。
 
 ここまで `Set` の大きな特徴である「値の一意性」を保証する仕組みについてみてきました。もう 1 つの `Set` の特徴として「配列よりも探索の性能面で優れる」というものがあります。
 
-この性能についても EcmaScript には記述があります。具体的には先ほど引用した [`Set` オブジェクトの説明部分](https://tc39.es/ecma262/multipage/keyed-collections.html#sec-set-objects)に以下のように書かれています。
+この性能についても ECMAScript には記述があります。具体的には先ほど引用した [`Set` オブジェクトの説明部分](https://tc39.es/ecma262/multipage/keyed-collections.html#sec-set-objects)に以下のように書かれています。
 
 > Set objects must be implemented using either hash tables or other mechanisms that, on average, provide access times that are sublinear on the number of elements in the collection.
 
@@ -133,9 +133,7 @@ EcmaScript によると `Set` は以下のように定義されています。
 
 こうなると気になってくるのが「各 JS エンジンの実装はどうなっているのか?」ということです。 仕様書では性能要件を提示していますが実装方法は各 JS ランタイム側に任されています。今回は主要ブラウザの JS ランタイムである `V8`, `SpiderMonkey`, `JavaScriptCore` の実装を見てみましょう。(ここからは自分が初めて読むものがほとんどです。間違っているところなどありましたらコメントいただけると嬉しいです。)
 
-### V8
-
-#### コードを読むまでに
+### V8 のコードリーディング
 
 V8 のコードは [Google Git のページ](https://chromium.googlesource.com/v8/v8/+/refs/heads/main) から閲覧可能ですが、検索やコードジャンプなどが使えないので clone してきた方が読みやすそうです。
 
@@ -147,7 +145,7 @@ https://v8.dev/docs/source-code
 
 V8 のコードを読むにあたっては少し前の記事になりますが、[brn さん](https://twitter.com/brn227) の [V8 javascript engine についての細かい話](https://abcdef.gets.b6n.ch/entry/2017/12/25/120000) などがとても参考になります。(大まかな構造はそこまで変わっていないはず。)
 
-まずは js の api 層との繋ぎきこみを実装している `src/api/api.cc` から追っていきます。[8217 行目](https://github.com/v8/v8/blob/main/src/api/api.cc#L8217)以降から `Set` の API 実装部分です。具体的に `new()` のつなぎこみ部分を見てみましょう。
+まずは js の api 層との繋ぎきこみを実装している `src/api/api.cc` から追っていきます。[8217 行目](https://github.com/v8/v8/blob/fbb08351c4c7d845f6658c125ef7cf5c7c6ae43f/src/api/api.cc#L8217)以降から `Set` の API 実装部分です。具体的に `new()` のつなぎこみ部分を見てみましょう。
 
 ```cpp
 Local<v8::Set> v8::Set::New(Isolate* v8_isolate) {
@@ -241,9 +239,7 @@ class OrderedHashTable : public FixedArray {
 
 これで V8 では `Set` をある種の**ハッシュテーブルで実装している**ことがわかりました。
 
-### SpiderMonkey
-
-#### コードを読むまでに
+### SpiderMonkey のコードリーディング
 
 SpiderMonkey のコードは以下のページで読むことができます。こちらはコードの検索やジャンプにも対応しているのでこのページ上で読んでいきましょう。
 
@@ -251,7 +247,7 @@ https://searchfox.org/mozilla-central/source/js/src
 
 #### SpiderMonkey の Set 実装を読む
 
-V8 の時と同様、 JS の API 層との繋ぎ込み部分から探していきましょう。Set の繋ぎ込みは [source/js/public/MapAndSet.h の 52 行目](https://searchfox.org/mozilla-central/source/js/public/MapAndSet.h#52) から書かれています。今回は `add` メソッドの定義から追ってみましょう。
+V8 と同様、 JS の API 層との繋ぎ込み部分から探していきましょう。Set の繋ぎ込みは [source/js/public/MapAndSet.h の 52 行目](https://searchfox.org/mozilla-central/source/js/public/MapAndSet.h#52) から書かれています。今回は `add` メソッドの定義から追ってみましょう。
 
 ```cpp
 extern JS_PUBLIC_API bool SetAdd(JSContext* cx, HandleObject obj,
@@ -350,9 +346,7 @@ class OrderedHashSet {
 
 これで SpiderMonkey でも `Set` を**ハッシュテーブルで実装している**ことがわかりました。
 
-### JavaScriptCore
-
-#### コードを読むまでに
+### JavaScriptCore のコードリーディング
 
 JavaScriptCore の実装は以下の github で公開されています。
 
@@ -432,7 +426,7 @@ ALWAYS_INLINE void HashMapImpl<HashMapBucketType>::add(JSGlobalObject* globalObj
 1. `Set` は `SameValueZero` アルゴリズムで一意性を保証しており、 `NaN` の扱い以外は `===` と同じ挙動である。
 2. `Set` は 仕様でアクセス性能が O(n) 以下であることを要求しており、主要ブラウザ (Chrome, Firefox, Safari) の JS エンジンは順序付き HashTable で実装している。
 
-JavaScript の機能や挙動に疑問がある際は、この記事のような形で仕様書や実装を見に行くとより知見が深まりそうです。
+JavaScript の機能や挙動に疑問がある際は、この記事のような形で仕様書や実装を見に行くとより理解が深まりそうです。
 
 ## 参考文献
 
