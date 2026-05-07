@@ -88,8 +88,8 @@ https://groups.google.com/a/chromium.org/g/blink-dev/c/EKkOr6M6A8g
 
 CSS の`url()`関数内で fetch のオプションを指定できるようになります。
 
-```
-background-image: url("image.png" cross-origin(anonymous));
+```css
+background-image: url("image.png"cross-origin(anonymous));
 ```
 
 これまでも CSS で読み込んだ画像は表示できましたが、CORS の設定ができなかったため、同じ画像を JavaScript から`CanvasRenderingContext2D`などで操作しようとするとセキュリティエラーになることがありました。この機能により、CSS 側で CORS 設定を宣言できるようになり、JavaScript からも同じ画像を扱えるようになります。
@@ -231,8 +231,10 @@ ES2025からの主な新機能は以下の通りです。
 
 引数がErrorオブジェクトかどうかを判定します。
 
-```
-Error.isError(new Error()) // true Error.isError(new TypeError()) // true Error.isError({ message: "err" }) // false
+```js
+Error.isError(new Error()); // true
+Error.isError(new TypeError()); // true
+Error.isError({ message: "err" }); // false
 ```
 
 **Iterator.concat() / Iterator.from()**
@@ -241,64 +243,105 @@ Error.isError(new Error()) // true Error.isError(new TypeError()) // true Error.
 
 `Iterator.from()`は任意のイテラブル/イテレータを Iterator.prototype を継承するオブジェクトにラップします。
 
-```
-// 複数のイテラブルを連結 Iterator.concat([1, 2], [3, 4]) // Iterator: 1, 2, 3, 4 // イテラブル/イテレータをIterator.prototypeを継承するオブジェクトにラップ Iterator.from({ next() { return { value: 1, done: false } } })
+```js
+// 複数のイテラブルを連結
+Iterator.concat([1, 2], [3, 4]); // Iterator: 1, 2, 3, 4
+// イテラブル/イテレータをIterator.prototypeを継承するオブジェクトにラップ
+Iterator.from({
+  next() {
+    return { value: 1, done: false };
+  },
+});
 ```
 
 **Math.sumPrecise()**
 
 Numberのイテラブルが与えられると、この関数はイテラブル内の各値を合計し、その合計を返します。
 
-```
-// 従来の問題 0.1 + 0.2 + 0.3 // 0.6000000000000001 // Math.sumPrecise で解決 Math.sumPrecise([0.1, 0.2, 0.3]) // 0.6
+```js
+// 従来の問題
+0.1 + 0.2 + 0.3; // 0.6000000000000001
+// Math.sumPrecise で解決
+Math.sumPrecise([0.1, 0.2, 0.3]); // 0.6
 ```
 
 **Array.fromAsync()**
 
 非同期イテラブルやPromiseの配列から配列を作成します。
 
-```
-await Array.fromAsync(asyncGenerator()) await Array.fromAsync([Promise.resolve(1), Promise.resolve(2)]) // [1, 2]
+```js
+await Array.fromAsync(asyncGenerator());
+await Array.fromAsync([Promise.resolve(1), Promise.resolve(2)]); // [1, 2]
 ```
 
 **Uint8Array Base64/Hex**
 
 バイナリ⇔文字列の相互変換をします。
 
-```
-// Base64 Uint8Array.fromBase64("SGVsbG8=") // Uint8Array [72, 101, 108, 108, 111] new Uint8Array([72, 101, 108, 108, 111]).toBase64() // "SGVsbG8=" // Hex Uint8Array.fromHex("48656c6c6f") // Uint8Array [72, 101, 108, 108, 111] new Uint8Array([72, 101, 108, 108, 111]).toHex() // "48656c6c6f"
+```js
+// Base64
+Uint8Array.fromBase64("SGVsbG8="); // Uint8Array [72, 101, 108, 108, 111]
+new Uint8Array([72, 101, 108, 108, 111]).toBase64(); // "SGVsbG8="
+// Hex
+Uint8Array.fromHex("48656c6c6f"); // Uint8Array [72, 101, 108, 108, 111]
+new Uint8Array([72, 101, 108, 108, 111]).toHex(); // "48656c6c6f"
 ```
 
 **Map/WeakMap.prototype.getOrInsert**
 
 キーが存在しない場合に値を挿入して返します。
 
-```
-const map = new Map() // キーがなければvalueを挿入して返す map.getOrInsert("key", "default") // "default" // キーがなければcallbackを実行して値を挿入 map.getOrInsertComputed("key2", (k) => fetchData(k))
+```js
+const map = new Map();
+
+// キーがなければvalueを挿入して返す
+map.getOrInsert("key", "default"); // "default"
+
+// キーがなければcallbackを実行して値を挿入
+map.getOrInsertComputed("key2", (k) => fetchData(k));
 ```
 
 **JSON.parse source text access**
 
 `JSON.parse` の reviver 関数に第3引数として `context` オブジェクトが渡されるようになりました。プリミティブ値の場合、`context.source` でパース前の元のJSON文字列にアクセスできます。
 
-```
-const json = '{"value": 12345678901234567890}'; JSON.parse(json, (key, value, context) => { if (key === 'value') { console.log(value); // 12345678901234567000（精度が失われる） console.log(context.source); // "12345678901234567890"（元の文字列） return BigInt(context.source); // BigIntとして正確に復元可能 } return value; });
+```js
+const json = '{"value": 12345678901234567890}';
+
+JSON.parse(json, (key, value, context) => {
+  if (key === "value") {
+    console.log(value); // 12345678901234567000（精度が失われる）
+    console.log(context.source); // "12345678901234567890"（元の文字列）
+    return BigInt(context.source); // BigIntとして正確に復元可能
+  }
+  return value;
+});
 ```
 
 **JSON.rawJSON()**
 
 生のJSONテキストを表すオブジェクトを作成します。
 
-```
-const raw = JSON.rawJSON('12345678901234567890'); // { rawJSON: "12345678901234567890" } を持つ凍結オブジェクト const obj = { bigNumber: raw }; JSON.stringify(obj); // '{"bigNumber":12345678901234567890}' // ※ 文字列ではなく数値としてそのまま出力される
+```js
+const raw = JSON.rawJSON("12345678901234567890");
+// { rawJSON: "12345678901234567890" } を持つ凍結オブジェクト
+
+const obj = { bigNumber: raw };
+JSON.stringify(obj);
+// '{"bigNumber":12345678901234567890}'
+// ※ 文字列ではなく数値としてそのまま出力される
 ```
 
 **JSON.isRawJSON()**
 
 オブジェクトが `JSON.rawJSON()` で作成されたものかどうかを判定します。
 
-```
-const raw = JSON.rawJSON('123'); JSON.isRawJSON(raw); // true JSON.isRawJSON({ rawJSON: '123' }); // false（手動で作っても偽物） JSON.isRawJSON(123); // false
+```js
+const raw = JSON.rawJSON("123");
+JSON.isRawJSON(raw); // true
+
+JSON.isRawJSON({ rawJSON: "123" }); // false（手動で作っても偽物）
+JSON.isRawJSON(123); // false
 ```
 
 ### Prototype: Main thread Atomics.wait
