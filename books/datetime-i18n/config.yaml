@@ -1,0 +1,9 @@
+title: "WEBのにおける日時の国際化"
+summary: "本の紹介文"
+topics: ["Intl", "i18n", "日時"] # トピック（5つまで）
+published: false # falseだと下書き
+price: 0 # 有料の場合200〜5000
+chapters:
+  - intro # チャプター1
+  - example2 # チャプター2
+  - example3 # チャプター3

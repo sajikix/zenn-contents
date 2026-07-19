@@ -1,0 +1,6 @@
+{
+  "[markdonw]":{
+    "editor.defaultFormatter": "vscode.markdown-language-features",
+    "editor.formatOnSave": true
+  },
+}
